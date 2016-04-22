@@ -5,11 +5,11 @@
 {% block body %}
     <div class="container">
         <div class="well bootable boot-start">
-            <h1>Gerätesteuerung für {{ device.deviceName }}</h1>
+            <h1 class="device-header" data-id="{{ device.id }}">Gerätesteuerung für {{ device.deviceName }}</h1>
             <div class="row">
                 {% for commandName, command in commands %}
                     <div class="col-md-2 col-sm-3 col-xs-6">
-                        <div class="well btn btn-primary btn-raised" data-action="{{ command|first }}">
+                        <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command|first }}">
                             <i class="material-icons">{{ command|keys|first }}</i>
                             <br>
                             <span>{{ commandName }}</span>

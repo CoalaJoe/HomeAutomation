@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Device;
 use AppBundle\Entity\Interfaces\Authorizable;
 use AppBundle\Entity\Interfaces\Controllable;
+use AppBundle\Entity\Room;
 use AppBundle\Entity\SonyBraviaSmartTV;
 use AppBundle\Exception\DeviceNotAuthorizedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -34,6 +36,7 @@ class AppController extends Controller
 
             return $this->render('AppBundle:app:index.html.twig');
         }
+        /** @var Room $room */
         $room = $this->getUser()->getSettings()->getRoom();
         if (!$room) {
 
@@ -41,18 +44,6 @@ class AppController extends Controller
         }
         $devices = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Device')->findBy(['room' => $room->getId()]);
 
-        $smartTv = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:SonyBraviaSmartTV')->find(2);
-        $smartTv->setMac('afafafafafaf');
-        dump($smartTv->getMac());
-
-        /*
-        try {
-            $this->get('app_smart_tv_handler')->send($smartTv, 'getChannelUp');
-        } catch (DeviceNotAuthorizedException $e) {
-            $smartTv->requestAccess();
-
-            return $this->redirectToRoute('app_authenticate_device_route', ['deviceId' => $smartTv->getId()]);
-        } */
 
         return $this->render('AppBundle:app:overview.html.twig', ['devices' => $devices]);
     }
@@ -175,9 +166,37 @@ class AppController extends Controller
             return new Response('', 404);
         }
 
-        /** @var Controllable $device */
+        /** @var Device|Controllable $device */
         $commands = $device->getCommands();
 
         return $this->render('@App/app/controlDevice.html.twig', ['device' => $device, 'commands' => $commands]);
+    }
+
+    /**
+     * @Route("/device/{id}/{command}", name="app_device_control_receiver_route", requirements={"id": "\d+"}, options={"expose": true})
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @param Request $request
+     * @param int     $id
+     * @param string  $command
+     * 
+     * @return Response
+     */
+    public function deviceControlReceiverAction(Request $request, int $id, string $command)
+    {
+        $device = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Device')->find($id);
+        if (!$device || !$device->isControllable()) {
+            // TODO: Send intention do redirect to homepage
+            return new Response('', 404);
+        }
+        if ($device instanceof Authorizable && !$device->isAuthorized()) {
+            // TODO: Send intention to redirect to device authentication
+            return $this->redirectToRoute('app_authenticate_device_route', ['deviceId' => $device->getId()]);
+        }
+
+        $this->get('app_smart_tv_handler')->send($device, $command);
+
+
+        return new Response('{"status": 200}', 200);
     }
 }

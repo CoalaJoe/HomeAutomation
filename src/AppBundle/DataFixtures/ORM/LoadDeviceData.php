@@ -27,6 +27,7 @@ class LoadDeviceData extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $sonySmartTV = new SonyBraviaSmartTV('192.168.1.129', $this->getReference('Dominiks Zimmer'));
+        $sonySmartTV->setMac('AC:9B:0A:3C:25:7A');
         $manager->persist($sonySmartTV);
 
         $manager->flush();

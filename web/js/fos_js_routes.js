@@ -1,0 +1,1 @@
+fos.Router.setData({"base_url":"","routes":{"app_device_control_receiver_route":{"tokens":[["variable","\/","[^\/]++","command"],["variable","\/","\\d+","id"],["text","\/device"]],"defaults":[],"requirements":{"id":"\\d+"},"hosttokens":[]}},"prefix":"","host":"localhost","scheme":"http"});

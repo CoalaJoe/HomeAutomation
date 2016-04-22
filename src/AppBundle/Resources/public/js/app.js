@@ -55,11 +55,13 @@ var app = {
     setEventListeners: function() {
         app.removeEventListeners();
 
+        var $body = $('body');
+
         $('window').on('unload', function() {
             app.unboot();
         });
 
-        $('body').on('change', '#chooseDevice', function() {
+        $body.on('change', '#chooseDevice', function() {
             var $selected = $(this).find('option:selected');
             if ($selected.attr('value') !== '') {
                 $('#chooseDeviceButton').removeAttr('disabled')
@@ -67,6 +69,15 @@ var app = {
                 $('#chooseDeviceButton').attr('disabled', 'disabled');
             }
         });
+
+        $body.on('click', '.btn-command', function() {
+            var command = $(this).data('command');
+            var deviceId = $('.device-header').data('id');
+
+            $.getJSON(Routing.generate('app_device_control_receiver_route', {'id': deviceId, 'command': command}), function(data) {
+                console.log(data);
+            });
+        })
     },
 
     removeEventListeners: function() {

@@ -16,6 +16,8 @@ namespace AppBundle\Entity\Interfaces;
  */
 interface WakeOnLanCapable
 {
+    const TURN_ON = ['Einschalten' => 'power_settings_new'];
+
     /**
      * @return string
      */
@@ -27,4 +29,9 @@ interface WakeOnLanCapable
      * @return mixed
      */
     public function setMac(string $mac);
+
+    /**
+     * @return mixed
+     */
+    public function commandTurnOn();
 }

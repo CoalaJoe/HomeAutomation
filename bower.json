@@ -1,0 +1,27 @@
+{
+  "name": "HomeAutomation",
+  "homepage": "https://github.com/CoalaJoe/HomeAutomation",
+  "authors": [
+    "Dominik Müller ashura@protonmail.ch"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "keywords": [
+    "HomeAutomation"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/assets/vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-material-design": "^0.5.9",
+    "bootstrap": "^3.3.6"
+  }
+}

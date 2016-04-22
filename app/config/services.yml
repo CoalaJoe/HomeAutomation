@@ -7,6 +7,7 @@ services:
 
     app_device_manager:
         class: AppBundle\Services\DevicesManager
+        arguments: ['@app_smart_tv_handler']
 
     app_smart_tv_handler:
         class: AppBundle\Services\DeviceHandlers\SmartTVHandler

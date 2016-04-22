@@ -10,10 +10,15 @@ namespace AppBundle\Entity;
 
 
 use AppBundle\Entity\Interfaces\Audio\Mutable;
+use AppBundle\Entity\Interfaces\SmartTV\SubtitleChangeable;
 use AppBundle\Entity\Interfaces\Audio\VolumeChangeable;
 use AppBundle\Entity\Interfaces\Authorizable;
+use AppBundle\Entity\Interfaces\SmartTV\BackToMenu;
 use AppBundle\Entity\Interfaces\SmartTV\ChannelChangeable;
+use AppBundle\Entity\Interfaces\SmartTV\Enterable;
+use AppBundle\Entity\Interfaces\SmartTV\Navigatable;
 use AppBundle\Entity\Interfaces\SmartTVInterface;
+use AppBundle\Entity\Interfaces\StandByChangeable;
 use AppBundle\Entity\Interfaces\WakeOnLanCapable;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,8 +29,10 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @package AppBundle\Entity
  */
-class SonyBraviaSmartTV extends Device implements SmartTVInterface, ChannelChangeable, Authorizable, WakeOnLanCapable, VolumeChangeable, Mutable
+class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChangeable, WakeOnLanCapable, ChannelChangeable, Authorizable, VolumeChangeable, Mutable, Navigatable, Enterable, BackToMenu, SubtitleChangeable
 {
+    use WakeOnLanTrait;
+
     const COMMAND_POWER_OFF                  = 'AAAAAQAAAAEAAAAvAw==';
     const COMMAND_VOLUME_DOWN                = 'AAAAAQAAAAEAAAATAw==';
     const COMMAND_VOLUME_UP                  = 'AAAAAQAAAAEAAAASAw==';
@@ -62,8 +69,8 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, ChannelChang
     const COMMAND_FUNCTION_BLUE              = 'AAAAAgAAAJcAAAAkAw==';
     const COMMAND_3D                         = 'AAAAAgAAAHcAAABNAw==';
     const COMMAND_SUBTITLE_ON                = 'AAAAAgAAAJcAAAAoAw==';
-    const COMMAND_SUBTITLE_OFF               = 'AAAAAgAAAKQAAAAQAw=='; // TODO: test
-    const COMMAND_HELP                       = 'AAAAAgAAABoAAAB7Aw==';
+    const COMMAND_SUBTITLE_OFF               = 'AAAAAgAAAKQAAAAQAw==';
+    const COMMAND_HELP                       = 'AAAAAgAAABoAAAB7Aw=='; // TODO: test
     const COMMAND_SYNC_MENU                  = 'AAAAAgAAABoAAABYAw==';
     const COMMAND_OPTIONS                    = 'AAAAAgAAAJcAAAA2Aw==';
     const COMMAND_INPUT_TOGGLE               = 'AAAAAQAAAAEAAAAlAw==';
@@ -76,18 +83,17 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, ChannelChang
     const COMMAND_MEDIA_REVERSE              = 'AAAAAgAAAJcAAAAbAw==';
     const COMMAND_MEDIA_PREVIOUS             = 'AAAAAgAAAJcAAAA8Aw==';
     const COMMAND_MEDIA_NEXT                 = 'AAAAAgAAAJcAAAA9Aw==';
-
-    const COMMAND_ANALOG              = 'AAAAAgAAAHcAAAANAw==';
-    const COMMAND_DIGITAL             = 'AAAAAgAAAJcAAAAyAw=='; // TODO: test
-    const COMMAND_AUDIO               = 'AAAAAQAAAAEAAAAXAw==';
-    const COMMAND_PICTURE_AND_PICTURE = 'AAAAAgAAAKQAAAB3Aw==';
-    const COMMAND_INPUT_HDMI1         = 'AAAAAgAAABoAAABaAw==';
-    const COMMAND_INPUT_HDMI2         = 'AAAAAgAAABoAAABbAw==';
-    const COMMAND_INPUT_HDMI3         = 'AAAAAgAAABoAAABcAw==';
-    const COMMAND_INPUT_HDMI4         = 'AAAAAgAAABoAAABdAw==';
+    const COMMAND_ANALOG                     = 'AAAAAgAAAHcAAAANAw==';
+    const COMMAND_DIGITAL                    = 'AAAAAgAAAJcAAAAyAw==';
+    const COMMAND_AUDIO                      = 'AAAAAQAAAAEAAAAXAw=='; // TODO: test
+    const COMMAND_PICTURE_AND_PICTURE        = 'AAAAAgAAAKQAAAB3Aw==';
+    const COMMAND_INPUT_HDMI1                = 'AAAAAgAAABoAAABaAw==';
+    const COMMAND_INPUT_HDMI2                = 'AAAAAgAAABoAAABbAw==';
+    const COMMAND_INPUT_HDMI3                = 'AAAAAgAAABoAAABcAw==';
+    const COMMAND_INPUT_HDMI4                = 'AAAAAgAAABoAAABdAw==';
+    const COMMAND_NETFLIX                    = 'AAAAAgAAABoAAAB8Aw==';
 
     // NOT TESTED
-    const COMMAND_NETFLIX             = 'AAAAAgAAABoAAAB8Aw==';
     const COMMAND_ADVANCE             = 'AAAAAgAAAJcAAAB4Aw==';
     const COMMAND_TOP_MENU            = 'AAAAAgAAABoAAABgAw==';
     const COMMAND_TELETEXT            = 'AAAAAQAAAAEAAAA/Aw==';
@@ -148,7 +154,6 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, ChannelChang
 
                 $rc    = new \ReflectionClass($interfaceName);
                 $const = $rc->getConstant($constName);
-                dump($const);
                 reset($const);
 
                 $commands[key($const)] = [
@@ -157,8 +162,22 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, ChannelChang
             }
         }
 
+        $commands += $this->getInputs();
 
         return $commands;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInputs():array
+    {
+        return [
+            'HDMI 1'  => ['settings_input_hdmi' => 'commandHDMI1'],
+            'HDMI 2'  => ['settings_input_hdmi' => 'commandHDMI2'],
+            'HDMI 3'  => ['settings_input_hdmi' => 'commandHDMI3'],
+            'Digital' => ['settings_input_hdmi' => 'commandDigital']
+        ];
     }
 
     /**
@@ -365,6 +384,188 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, ChannelChang
     {
         $curl = $this->getBaseCurl($this->getBaseUrl());
         curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_MUTE_TOGGLE));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandStandBy()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_POWER_OFF));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandUp()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_CURSOR_UP));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandDown()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_CURSOR_DOWN));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandLeft()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_CURSOR_LEFT));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandRight()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_CURSOR_RIGHT));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandEnter()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_CURSOR_ENTER));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandBackToMenu()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_HOME_MENU));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandSubtitle()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_SUBTITLE_ON)); // TODO: test
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandHDMI1()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_INPUT_HDMI1));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandHDMI2()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_INPUT_HDMI2));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandHDMI3()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_INPUT_HDMI3));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandHDMI4()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_INPUT_HDMI4));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandDigital()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_DIGITAL));
 
         $result = curl_exec($curl);
         curl_close($curl);
