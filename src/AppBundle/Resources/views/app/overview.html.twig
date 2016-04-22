@@ -1,0 +1,39 @@
+{% extends app.request.xmlHttpRequest
+? 'AppBundle::ajax-base.html.twig'
+: 'AppBundle::base.html.twig'%}
+
+{% block body %}
+    <div class="container">
+        <div class="well bootable boot-start">
+            {% if is_granted('ROLE_FAMILY') %}
+            <h1>Willkommen Zuhause {{ app.user.firstname }}</h1>
+            {% else %}
+            <h1>Übersicht</h1>
+            {% endif %}
+            {% if devices|length != 0 %}
+                {% for device in devices %}
+                    {% if loop.index % 2 == 1 %}
+                        <div class="row">
+                    {% endif %}
+
+                    <div class="col-md-2 col-sm-3 col-xs-6">
+                        <a href="{{ path('app_device_control_route', {'id': device.id}) }}" class="link">
+                            <div class="well btn btn-primary btn-raised">
+                                <i class="material-icons">{{ device.icon }}</i>
+                                <br>
+                                <span>{{ device.deviceName }}</span>
+                                <div class="ripple-container"></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    {% if loop.index % 2 == 0 %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <span>In diesem Raum sind noch keine verbundenen Geräte.</span>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

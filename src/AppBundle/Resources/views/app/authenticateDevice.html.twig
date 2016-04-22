@@ -1,0 +1,50 @@
+{% extends app.request.xmlHttpRequest
+? 'AppBundle::ajax-base.html.twig'
+: 'AppBundle::base.html.twig' %}
+
+{% set action = action is defined ? action : 'default' %}
+
+{% block body %}
+    <div class="container">
+        <div class="well bootable boot-start">
+            <h1>Authorisierung</h1>
+            {% if action == 'default' %}
+                <form action="{{ path('app_authenticate_device_form_route') }}" method="post">
+                    <div class="form-group">
+                        <fieldset>
+                            <legend>Gerät auswählen</legend>
+                            <select id="chooseDevice" name="device" class="form-control select" required>
+                                {% if devices|length == 0 %}
+                                    <option selected disabled>Keine Geräte gefunden</option>
+                                {% else %}
+                                    <option selected value="">Auswählen</option>
+                                {% endif %}
+                                {% for device in devices %}
+                                    <option value="{{ device.id }}">{{ device }} - {{ device.room }}</option>
+                                {% endfor %}
+                            </select>
+                        </fieldset>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="action" value="chooseDevice">
+                        <button id="chooseDeviceButton" type="submit" class="btn btn-default" disabled name="submit" value="yes">Anfragen</button>
+                    </div>
+                </form>
+            {% elseif action == 'enterPassword' %}
+                <form action="{{ path('app_authenticate_device_form_route') }}" method="post">
+                    <div class="form-group">
+                        <fieldset>
+                            <legend>Passwort für Gerät</legend>
+                            <input type="hidden" name="deviceId" value="{{ device.id }}">
+                            <input type="text" name="password" class="form-control">
+                        </fieldset>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="action" value="enterPassword">
+                        <button type="submit" class="btn btn-default" name="submit" value="yes">Anfragen</button>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

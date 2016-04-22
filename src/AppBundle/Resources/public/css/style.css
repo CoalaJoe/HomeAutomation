@@ -1,0 +1,141 @@
+/* Reset ugly defaultstyles */
+
+a, a:visited, a:focus, a:active, a:hover{
+    outline: 0 none !important;
+    border:  none;
+}
+
+button::-moz-focus-inner{
+    border: 0;
+}
+
+select:-moz-focusring{
+    color:       transparent;
+    text-shadow: 0 0 0 #000000;
+}
+
+/* Animate tooltips */
+
+@keyframes shake{
+    from, to{
+        transform: translate3d(0, 0, 0);
+    }
+
+    10%, 30%, 50%, 70%, 90%{
+        transform: translate3d(-10px, 0, 0);
+    }
+
+    20%, 40%, 60%, 80%{
+        transform: translate3d(10px, 0, 0);
+    }
+}
+
+.shake{
+    animation-name:      shake;
+    animation-duration:  1s;
+    animation-fill-mode: both;
+}
+
+@keyframes tooltip-top{
+    from{
+        transform: translateY(10px) scale(0.95);
+        opacity:   0.7;
+    }
+    to{
+        transform: translateY(0) scale(1);
+        opacity:   1;
+    }
+}
+
+@keyframes tooltip-right{
+    from{
+        transform: translateX(-10px) scale(0.95);
+        opacity:   0.7;
+    }
+    to{
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes tooltip-bottom{
+    from{
+        transform: translateY(-10px) scale(0.95);
+        opacity:   0.7;
+    }
+    to{
+        transform: translateX(0) scale(1);
+    }
+}
+
+.tooltip.top{
+    animation-name:     tooltip-top;
+    animation-duration: 0.5s;
+}
+
+.tooltip.bottom{
+    animation-name:     tooltip-bottom;
+    animation-duration: 0.5s;
+}
+
+.tooltip.right{
+    animation-name:     tooltip-right;
+    animation-duration: 0.5s;
+}
+
+/* My custom styles */
+
+@keyframes slideInUp{
+    0%{
+        transform: translate3d(0, 100px, 0);
+        opacity:   0;
+    }
+    80%{
+        opacity: 1;
+    }
+    100%{
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes slideOutDown{
+    0%{
+        opacity:   1;
+        transform: translate3d(0, 0, 0);
+    }
+    80%{
+        opacity: 0;
+    }
+    100%{
+        transform: translate3d(0, 80px, 0);
+    }
+}
+
+.bootable{
+    opacity: 0;
+}
+
+.booted:not(.boot){
+    animation: slideOutDown 0.7s;
+}
+
+.boot{
+    display:   block;
+    animation: slideInUp 0.7s;
+    opacity:   1;
+}
+
+/* Application styles */
+
+main{
+    padding-top:    120px;
+    height:         100vh;
+    padding-bottom: 160px;
+}
+
+.navbar-fixed-top, .dropdown-menu{
+    box-shadow: 0 7px 20px 3px rgba(20, 20, 20, 0.25);
+}
+
+.well{
+    width: 100%;
+}

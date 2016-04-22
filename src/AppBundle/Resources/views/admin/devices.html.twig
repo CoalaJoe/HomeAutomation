@@ -1,0 +1,11 @@
+{% extends app.request.xmlHttpRequest
+? 'AppBundle::ajax-base.html.twig'
+: 'AppBundle::base.html.twig'%}
+
+{% block body %}
+    <div class="container">
+        <div class="well bootable boot-start">
+            <h1>Geräte</h1>
+        </div>
+    </div>
+{% endblock %}

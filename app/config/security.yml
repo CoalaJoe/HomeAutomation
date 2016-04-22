@@ -1,0 +1,40 @@
+security:
+
+    always_authenticate_before_granting: true
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_FAMILY]
+        ROLE_FAMILY: [ROLE_VISITOR]
+        ROLE_VISITOR: [ROLE_DEMO]
+        ROLE_DEMO: [ROLE_USER]
+
+    encoders:
+        AppBundle\Entity\User:
+            algorithm: bcrypt
+
+    providers:
+        user_provider:
+            entity:
+                class: AppBundle:User
+                property: username
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+
+        main:
+            anonymous: ~
+            logout:
+                path: /logout
+            form_login:
+                login_path: /login
+                check_path: /login
+                provider: user_provider
+
+            # http_basic: ~
+            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: ~
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html

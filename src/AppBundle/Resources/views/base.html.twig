@@ -1,0 +1,76 @@
+{% spaceless %}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Hausautomation{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="/assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+            <link rel="stylesheet" href="/assets/vendor/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
+            <link rel="stylesheet" href="/assets/vendor/bootstrap-material-design/dist/css/ripples.min.css">
+            <link rel="stylesheet" href="/bundles/app/css/style.css">
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        {% block predict %}
+            {% if not is_granted('ROLE_USER') %}
+                <link rel="preconnect" href="{{ path('login') }}">
+            {% endif %}
+        {% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle withripple" data-toggle="collapse" data-target="#nav">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="{{ path('homepage') }}" class="navbar-brand link"><i class="material-icons">home</i> Heimautomation</a>
+                </div>
+                <div class="navbar-collapse collapse" id="nav">
+                    <ul class="nav navbar-nav navbar-left">
+                        {% if is_granted('ROLE_USER') %}
+                            <li><a href="{{ path('app_room_route') }}" class="link"><i class="material-icons">room</i> Zimmer</a></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">security</i> Admin <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="hidden-xs"><a href="{{ path('admin_devices_route') }}" class="link"><i class="material-icons">devices</i> Geräte</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if is_granted('ROLE_USER') %}
+                            <li><a href="#"><i class="material-icons">mic</i> Spracheingabe</a></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_USER') %}
+                            <li><a href="{{ path('logout') }}" onclick="app.unboot();"><i class="material-icons">exit_to_app</i> Logout</a></li>
+                        {% else %}
+                            <li><a href="{{ path('login') }}" onclick="app.unboot();"><i class="material-icons">account_circle</i> Login</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <main>
+            {% block body %}{% endblock %}
+        </main>
+        {% block javascripts %}
+            <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+            <script src="/assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+            <script src="/assets/vendor/bootstrap-material-design/dist/js/material.min.js"></script>
+            <script src="/assets/vendor/bootstrap-material-design/dist/js/ripples.min.js"></script>
+            <script src="/bundles/app/js/app.js"></script>
+        {% endblock %}
+    </body>
+</html>
+{% endspaceless %}

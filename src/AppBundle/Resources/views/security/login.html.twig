@@ -1,0 +1,49 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Remote-Steuerung - Login{% endblock %}
+
+{% block predict %}
+    <link rel="preconnect" href="{{ path('login') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="well col-md-6 col-md-offset-3{% if error %} shake{% else %} bootable boot-start{% endif %}">
+            <form class="form-horizontal" method="post">
+                <fieldset>
+                    <legend>Login</legend>
+                    {% if error %}
+                        <div class="alert alert-dismissable alert-danger slideDown">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
+                            <span>{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+                        </div>
+                    {% endif %}
+                    <div class="form-group{% if error %} has-error{% endif %} is-focused">
+                        <label for="username" class="col-md-2 control-label">Benutzername</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="username" name="_username" placeholder="Benutzername" required value="{{ last_username }}" autofocus
+                                   autocorrect="off" autocapitalize="none" list="usernames" spellcheck="false"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-md-2 control-label">Password:</label>
+                        <div class="col-md-10">
+                            <input type="password" class="form-control" id="password" name="_password" placeholder="Passwort" required/>
+                        </div>
+                    </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <div class="form-group">
+                        <div class="col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-4 col-xs-offset-7">
+                            <button type="submit" class="btn btn-primary form-button">Senden</button>
+                        </div>
+                    </div>
+                </fieldset>
+                <datalist id="usernames">
+                    {% for username in usernames %}
+                        <option>{{ username['username'] }}</option>
+                    {% endfor %}
+                </datalist>
+            </form>
+        </div>
+    </div>
+{% endblock %}

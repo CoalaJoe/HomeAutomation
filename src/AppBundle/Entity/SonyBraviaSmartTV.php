@@ -1,0 +1,374 @@
+<?php
+/**
+ * Created with PhpStorm at 19.04.16.
+ *
+ * @author Dominik Müller (Ashura) ashura@aimei.ch
+ * @link   http://aimei.ch/developers/Ashura
+ */
+
+namespace AppBundle\Entity;
+
+
+use AppBundle\Entity\Interfaces\Audio\Mutable;
+use AppBundle\Entity\Interfaces\Audio\VolumeChangeable;
+use AppBundle\Entity\Interfaces\Authorizable;
+use AppBundle\Entity\Interfaces\SmartTV\ChannelChangeable;
+use AppBundle\Entity\Interfaces\SmartTVInterface;
+use AppBundle\Entity\Interfaces\WakeOnLanCapable;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Class SonyBraviaSmartTV
+ *
+ * @ORM\Entity()
+ *
+ * @package AppBundle\Entity
+ */
+class SonyBraviaSmartTV extends Device implements SmartTVInterface, ChannelChangeable, Authorizable, WakeOnLanCapable, VolumeChangeable, Mutable
+{
+    const COMMAND_POWER_OFF                  = 'AAAAAQAAAAEAAAAvAw==';
+    const COMMAND_VOLUME_DOWN                = 'AAAAAQAAAAEAAAATAw==';
+    const COMMAND_VOLUME_UP                  = 'AAAAAQAAAAEAAAASAw==';
+    const COMMAND_MUTE_TOGGLE                = 'AAAAAQAAAAEAAAAUAw==';
+    const COMMAND_CHANNEL_DOWN               = 'AAAAAQAAAAEAAAARAw==';
+    const COMMAND_CHANNEL_UP                 = 'AAAAAQAAAAEAAAAQAw==';
+    const COMMAND_CHANNEL_PREVIOUS           = 'AAAAAQAAAAEAAAA7Aw==';
+    const COMMAND_CURSOR_DOWN                = 'AAAAAQAAAAEAAAB1Aw==';
+    const COMMAND_CURSOR_UP                  = 'AAAAAQAAAAEAAAB0Aw==';
+    const COMMAND_CURSOR_RIGHT               = 'AAAAAQAAAAEAAAAzAw==';
+    const COMMAND_CURSOR_LEFT                = 'AAAAAQAAAAEAAAA0Aw==';
+    const COMMAND_CURSOR_ENTER               = 'AAAAAQAAAAEAAABlAw==';
+    const COMMAND_HOME_MENU                  = 'AAAAAQAAAAEAAABgAw==';
+    const COMMAND_EXIT                       = 'AAAAAQAAAAEAAABjAw==';
+    const COMMAND_RETURN                     = 'AAAAAgAAAJcAAAAjAw==';
+    const COMMAND_DISPLAY                    = 'AAAAAQAAAAEAAAA6Aw==';
+    const COMMAND_GUIDE                      = 'AAAAAgAAAKQAAABbAw==';
+    const COMMAND_NUM_ZERO                   = 'AAAAAQAAAAEAAAAJAw==';
+    const COMMAND_NUM_ONE                    = 'AAAAAQAAAAEAAAAAAw==';
+    const COMMAND_NUM_TWO                    = 'AAAAAQAAAAEAAAABAw==';
+    const COMMAND_NUM_THREE                  = 'AAAAAQAAAAEAAAACAw==';
+    const COMMAND_NUM_FOUR                   = 'AAAAAQAAAAEAAAADAw==';
+    const COMMAND_NUM_FIVE                   = 'AAAAAQAAAAEAAAAEAw==';
+    const COMMAND_NUM_SIX                    = 'AAAAAQAAAAEAAAAFAw==';
+    const COMMAND_NUM_SEVEN                  = 'AAAAAQAAAAEAAAAGAw==';
+    const COMMAND_NUM_EIGHT                  = 'AAAAAQAAAAEAAAAHAw==';
+    const COMMAND_NUM_NINE                   = 'AAAAAQAAAAEAAAAIAw==';
+    const COMMAND_NUM_TEN                    = 'AAAAAgAAAJcAAAAMAw==';
+    const COMMAND_DIGIT_SEPARATOR            = 'AAAAAgAAAJcAAAAdAw==';
+    const COMMAND_MENU_POPUP                 = 'AAAAAgAAABoAAABhAw==';
+    const COMMAND_FUNCTION_RED               = 'AAAAAgAAAJcAAAAlAw==';
+    const COMMAND_FUNCTION_YELLOW            = 'AAAAAgAAAJcAAAAnAw==';
+    const COMMAND_FUNCTION_GREEN             = 'AAAAAgAAAJcAAAAmAw==';
+    const COMMAND_FUNCTION_BLUE              = 'AAAAAgAAAJcAAAAkAw==';
+    const COMMAND_3D                         = 'AAAAAgAAAHcAAABNAw==';
+    const COMMAND_SUBTITLE_ON                = 'AAAAAgAAAJcAAAAoAw==';
+    const COMMAND_SUBTITLE_OFF               = 'AAAAAgAAAKQAAAAQAw=='; // TODO: test
+    const COMMAND_HELP                       = 'AAAAAgAAABoAAAB7Aw==';
+    const COMMAND_SYNC_MENU                  = 'AAAAAgAAABoAAABYAw==';
+    const COMMAND_OPTIONS                    = 'AAAAAgAAAJcAAAA2Aw==';
+    const COMMAND_INPUT_TOGGLE               = 'AAAAAQAAAAEAAAAlAw==';
+    const COMMAND_WIDE                       = 'AAAAAgAAAKQAAAA9Aw==';
+    const COMMAND_SONY_ENTERTAINMENT_NETWORK = 'AAAAAgAAABoAAAB9Aw==';
+    const COMMAND_MEDIA_PAUSE                = 'AAAAAgAAAJcAAAAZAw==';
+    const COMMAND_MEDIA_PLAY                 = 'AAAAAgAAAJcAAAAaAw==';
+    const COMMAND_MEDIA_STOP                 = 'AAAAAgAAAJcAAAAYAw==';
+    const COMMAND_MEDIA_FORWARD              = 'AAAAAgAAAJcAAAAcAw==';
+    const COMMAND_MEDIA_REVERSE              = 'AAAAAgAAAJcAAAAbAw==';
+    const COMMAND_MEDIA_PREVIOUS             = 'AAAAAgAAAJcAAAA8Aw==';
+    const COMMAND_MEDIA_NEXT                 = 'AAAAAgAAAJcAAAA9Aw==';
+
+    const COMMAND_ANALOG              = 'AAAAAgAAAHcAAAANAw==';
+    const COMMAND_DIGITAL             = 'AAAAAgAAAJcAAAAyAw=='; // TODO: test
+    const COMMAND_AUDIO               = 'AAAAAQAAAAEAAAAXAw==';
+    const COMMAND_PICTURE_AND_PICTURE = 'AAAAAgAAAKQAAAB3Aw==';
+    const COMMAND_INPUT_HDMI1         = 'AAAAAgAAABoAAABaAw==';
+    const COMMAND_INPUT_HDMI2         = 'AAAAAgAAABoAAABbAw==';
+    const COMMAND_INPUT_HDMI3         = 'AAAAAgAAABoAAABcAw==';
+    const COMMAND_INPUT_HDMI4         = 'AAAAAgAAABoAAABdAw==';
+
+    // NOT TESTED
+    const COMMAND_NETFLIX             = 'AAAAAgAAABoAAAB8Aw==';
+    const COMMAND_ADVANCE             = 'AAAAAgAAAJcAAAB4Aw==';
+    const COMMAND_TOP_MENU            = 'AAAAAgAAABoAAABgAw==';
+    const COMMAND_TELETEXT            = 'AAAAAQAAAAEAAAA/Aw==';
+    const COMMAND_GGUIDE              = 'AAAAAQAAAAEAAAAOAw==';
+    const COMMAND_BS                  = 'AAAAAgAAAJcAAAAsAw==';
+    const COMMAND_CS                  = 'AAAAAgAAAJcAAAArAw==';
+    const COMMAND_CSBS                = 'AAAAAgAAAJcAAAAQAw==';
+    const COMMAND_DDATA               = 'AAAAAgAAAJcAAAAVAw==';
+    const COMMAND_INTERNET_WIDGETS    = 'AAAAAgAAABoAAAB6Aw==';
+    const COMMAND_INTERNET_VIDEO      = 'AAAAAgAAABoAAAB5Aw==';
+    const COMMAND_SCENE_SELECT        = 'AAAAAgAAABoAAAB4Aw==';
+    const COMMAND_MY_EPG              = 'AAAAAgAAAHcAAABrAw==';
+    const COMMAND_PROGRAM_DESCRIPTION = 'AAAAAgAAAJcAAAAWAw==';
+    const COMMAND_WRITE_CHAPTER       = 'AAAAAgAAAHcAAABsAw==';
+    const COMMAND_TRACK_ID            = 'AAAAAgAAABoAAAB+Aw==';
+    const COMMAND_APPLI_CAST          = 'AAAAAgAAABoAAABvAw==';
+    const COMMAND_DELETE_VIDEO        = 'AAAAAgAAAHcAAAAfAw==';
+    const COMMAND_EASY_STARTUP        = 'AAAAAgAAAHcAAABqAw==';
+    const COMMAND_ONE_TOUCH_TIME_REC  = 'AAAAAgAAABoAAABkAw==';
+    const COMMAND_ONE_TOUCH_VIEW      = 'AAAAAgAAABoAAABlAw==';
+    const COMMAND_ONE_TOUCH_REC       = 'AAAAAgAAABoAAABiAw==';
+    const COMMAND_ONE_TOUCH_REC_STOP  = 'AAAAAgAAABoAAABjAw==';
+
+    /**
+     * SonyBraviaSmartTV constructor.
+     *
+     * @param string $ip
+     * @param Room   $room
+     */
+    public function __construct(string $ip, Room $room)
+    {
+        parent::__construct($ip, $room, '', true, false);
+        $this->setIcon('tv');
+    }
+
+    /**
+     * @return array
+     */
+    public function getCommands():array
+    {
+        $interfaces = class_implements(__CLASS__);
+        $methods    = [];
+        foreach ($interfaces as $interface) {
+            foreach (get_class_methods($interface) as $method) {
+                if (substr($method, 0, 7) === 'command') {
+                    $methods[$interface][] = $method;
+                }
+            }
+        }
+
+        $commands = [];
+        foreach ($methods as $interfaceName => $interface) {
+            foreach ($interface as $method) {
+                $constName    = substr($method, 7);
+                $constName[0] = strtolower($constName[0]);
+                $func         = create_function('$c', 'return "_" . strtolower($c[1]);');
+                $constName    = strtoupper(preg_replace_callback('/([A-Z])/', $func, $constName));
+
+                $rc    = new \ReflectionClass($interfaceName);
+                $const = $rc->getConstant($constName);
+                dump($const);
+                reset($const);
+
+                $commands[key($const)] = [
+                    reset($const) => $method
+                ];
+            }
+        }
+
+
+        return $commands;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandChannelUp()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_CHANNEL_UP));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return resource
+     */
+    protected function getBaseCurl(string $url)
+    {
+        $cookieFile = '/tmp/HomeAutomation/Devices/sonyBravia'.$this->getId().'.txt';
+        if (!file_exists($cookieFile)) {
+            if (!file_exists('/tmp/HomeAutomation/Devices/')) {
+                mkdir('/tmp/HomeAutomation/Devices/', '0777', true);
+            }
+            $handle = fopen($cookieFile, 'w');
+            fclose($handle);
+        }
+
+        $curl = parent::getBaseCurl($url);
+        curl_setopt($curl, CURLOPT_COOKIEFILE, $cookieFile);
+        curl_setopt($curl, CURLOPT_COOKIEJAR, $cookieFile);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT_MS, 2000);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, ['SOAPAction: "urn:schemas-sony-com:service:IRCC:1#X_SendIRCC"']);
+        curl_setopt($curl, CURLOPT_POST, 1);
+
+        return $curl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseUrl()
+    {
+        return $this->getIp().'/sony/IRCC';
+    }
+
+    /**
+     * @param string $command
+     *
+     * @return string
+     */
+    private function getXMLRequest(string $command)
+    {
+        return '<?xml version="1.0" encoding="utf-8"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:X_SendIRCC xmlns:u="urn:schemas-sony-com:service:IRCC:1"><IRCCCode>'.$command.'</IRCCCode></u:X_SendIRCC></s:Body></s:Envelope>';
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandChannelDown()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_CHANNEL_DOWN));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMac():string
+    {
+        return $this->mac;
+    }
+
+    /**
+     * @param string $mac
+     *
+     * @return $this|mixed
+     */
+    public function setMac(string $mac)
+    {
+        $mac = str_replace('-', ':', $mac);
+        $mac = str_replace('.', ':', $mac);
+        if (strlen($mac) !== 17) {
+            $mac = str_replace(':', '', $mac);
+            $mac = substr_replace($mac, ':', 2, 0);
+            $mac = substr_replace($mac, ':', 5, 0);
+            $mac = substr_replace($mac, ':', 8, 0);
+            $mac = substr_replace($mac, ':', 11, 0);
+            $mac = substr_replace($mac, ':', 14, 0);
+        }
+        $this->mac = $mac;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandChannelPrevious()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_CHANNEL_PREVIOUS));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function requestAccess()
+    {
+        $curl = $this->getBaseCurl($this->getIp().'/sony/accessControl');
+        curl_setopt($curl, CURLOPT_POSTFIELDS,
+            '{"id":14,"method":"actRegister","version":"1.0","params":[{"clientid":"HomeAutomation:1","nickname":"HomeAutomation"},[{"clientid":"HomeAutomation:1","value":"yes","nickname":"HomeAutomation","function":"WOL"}]]}'
+        );
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+
+        return $result;
+    }
+
+    /**
+     * @param $password
+     *
+     * @return mixed
+     */
+    public function authenticate($password)
+    {
+        $curl = $this->getBaseCurl($this->getIp().'/sony/accessControl');
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($curl, CURLOPT_USERPWD, ':'.$password);
+        curl_setopt($curl, CURLOPT_POSTFIELDS,
+            '{"id":14,"method":"actRegister","version":"1.0","params":[{"clientid":"HomeAutomation:1","nickname":"HomeAutomation"},[{"clientid":"HomeAutomation:1","value":"yes","nickname":"HomeAutomation","function":"WOL"}]]}'
+        );
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return json_decode($result)->id === 14;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getDeviceName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeviceName()
+    {
+        return 'Sony Smart TV';
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function commandVolumeUp()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_VOLUME_UP));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandVolumeDown()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_VOLUME_DOWN));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandMute()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_MUTE_TOGGLE));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
+    }
+}
