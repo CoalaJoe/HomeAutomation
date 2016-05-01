@@ -1,11 +1,37 @@
 {% extends app.request.xmlHttpRequest
 ? 'AppBundle::ajax-base.html.twig'
-: 'AppBundle::base.html.twig'%}
+: 'AppBundle::base.html.twig' %}
 
 {% block body %}
     <div class="container">
         <div class="well bootable boot-start">
             <h1>Zimmer</h1>
+            <form action="{{ path('app_set_room_route') }}" method="post">
+                <div class="form-group">
+                    <fieldset>
+                        <legend>Stockwert aussuchen</legend>
+                        <select id="chooseLevel" name="level" class="form-control select" required>
+                            <option selected value="">Auswählen</option>
+                            {% for level in levels %}
+                                <option value="{{ level.id }}">{{ level }}</option>
+                            {% endfor %}
+                        </select>
+                    </fieldset>
+                </div>
+                <div class="form-group" style="display: none">
+                    <fieldset>
+                        <legend>Raum aussuchen</legend>
+                        <select id="chooseRoom" name="room" class="form-control select" required disabled>
+                            <option selected value="">Auswählen</option>
+                        </select>
+                        <div class="form-group">
+                            <div class="col-md-3 col-md-offset-9 col-sm-2 col-sm-offset-10 col-xs-4 col-xs-offset-5">
+                                <button type="submit" name="senden" value="1" class="btn btn-primary form-submit" disabled onclick="app.unboot();">Senden</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </form>
         </div>
     </div>
 {% endblock %}

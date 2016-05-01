@@ -7,12 +7,14 @@ use AppBundle\Entity\Interfaces\Authorizable;
 use AppBundle\Entity\Interfaces\Controllable;
 use AppBundle\Entity\Room;
 use AppBundle\Entity\SonyBraviaSmartTV;
+use AppBundle\Entity\User;
 use AppBundle\Exception\DeviceNotAuthorizedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -58,7 +60,10 @@ class AppController extends Controller
      */
     public function roomAction(Request $request)
     {
-        return $this->render('AppBundle:app:room.html.twig');
+        $em     = $this->get('doctrine.orm.entity_manager');
+        $levels = $em->getRepository('AppBundle:Level')->findAll();
+
+        return $this->render('AppBundle:app:room.html.twig', ['levels' => $levels]);
     }
 
     /**
@@ -165,6 +170,12 @@ class AppController extends Controller
         if (!$device || !$device->isControllable()) {
             return new Response('', 404);
         }
+        if (!$device->isAuthorized()) {
+            /** @var Authorizable $device */
+            $device->requestAccess();
+
+            return $this->redirectToRoute('app_authenticate_device_route', ['deviceId' => $device->getId()]);
+        }
 
         /** @var Device|Controllable $device */
         $commands = $device->getCommands();
@@ -179,7 +190,7 @@ class AppController extends Controller
      * @param Request $request
      * @param int     $id
      * @param string  $command
-     * 
+     *
      * @return Response
      */
     public function deviceControlReceiverAction(Request $request, int $id, string $command)
@@ -194,9 +205,58 @@ class AppController extends Controller
             return $this->redirectToRoute('app_authenticate_device_route', ['deviceId' => $device->getId()]);
         }
 
-        $this->get('app_smart_tv_handler')->send($device, $command);
+        $this->get('app_device_manager')->send($device, $command);
 
 
         return new Response('{"status": 200}', 200);
+    }
+
+    /**
+     * @Route("/getRooms/{level}", name="app_get_rooms_route", requirements={"level": "\d+"}, options={"expose": true})
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @param Request $request
+     * @param         $level
+     *
+     * @return JsonResponse|Response
+     */
+    public function getRoomsAction(Request $request, $level)
+    {
+        if ($request->isXmlHttpRequest()) {
+            $rooms = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Room')->findBy(['level' => $level]);
+            if ($rooms) {
+
+                return new JsonResponse(json_encode($rooms));
+            }
+        }
+
+        return new Response('', 404);
+    }
+
+    /**
+     * @Route("/setRoom", name="app_set_room_route")
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function setRoomAction(Request $request)
+    {
+        $values = $request->request;
+        if ($values->get('room')) {
+            /** @var User $user */
+            $user = $this->getUser();
+            $em   = $this->get('doctrine.orm.entity_manager');
+            if ($room = $em->getRepository('AppBundle:Room')->find($values->get('room'))) {
+                $user->getSettings()->setRoom($room);
+                $em->persist($user->getSettings());
+                $em->flush();
+
+                return $this->redirectToRoute('homepage');
+            }
+        }
+
+        return new Response('', 404);
     }
 }

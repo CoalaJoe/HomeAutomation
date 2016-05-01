@@ -11,6 +11,7 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Room;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
@@ -18,58 +19,66 @@ use Doctrine\Common\Persistence\ObjectManager;
  *
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadRoomData extends AbstractFixture
+class LoadRoomData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager)
     {
-        $entrance = new Room('Eingang', 0);
+        $entrance = new Room('Eingang', $this->getReference('eg'));
         $manager->persist($entrance);
 
-        $washroom = new Room('Waschküche', 0);
+        $washroom = new Room('Waschküche', $this->getReference('eg'));
         $manager->persist($washroom);
 
-        $fathersRoom = new Room('Vaters Hobbyraum', 0);
+        $fathersRoom = new Room('Vaters Hobbyraum', $this->getReference('eg'));
         $manager->persist($fathersRoom);
 
-        $livingroom = new Room('Wohnzimmer', 1);
+        $livingroom = new Room('Wohnzimmer', $this->getReference('lev1'));
+        $this->addReference('Wohnzimme', $livingroom);
         $manager->persist($livingroom);
 
-        $kitchen = new Room('Küche', 1);
+        $kitchen = new Room('Küche', $this->getReference('lev1'));
         $manager->persist($kitchen);
 
-        $corridor = new Room('Gang', 1);
+        $corridor = new Room('Gang', $this->getReference('lev1'));
         $manager->persist($corridor);
 
-        $bathroom = new Room('Badezimmer', 1);
+        $bathroom = new Room('Badezimmer', $this->getReference('lev1'));
         $manager->persist($bathroom);
 
-        $parentsBedroom = new Room('Schlafzimmer', 1);
+        $parentsBedroom = new Room('Schlafzimmer', $this->getReference('lev1'));
         $manager->persist($parentsBedroom);
 
-        $balcony = new Room('Balkon', 1);
+        $balcony = new Room('Balkon', $this->getReference('lev1'));
         $manager->persist($balcony);
 
-        $upperCorridor = new Room('Gang', 2);
+        $upperCorridor = new Room('Gang', $this->getReference('lev2'));
         $manager->persist($upperCorridor);
 
-        $upperBathroom = new Room('Badezimmer', 2);
+        $upperBathroom = new Room('Badezimmer', $this->getReference('lev2'));
         $manager->persist($upperBathroom);
 
-        $mothersRoom = new Room('Mutters Hobbyzimmer', 2);
+        $mothersRoom = new Room('Mutters Hobbyzimmer', $this->getReference('lev2'));
         $manager->persist($mothersRoom);
 
-        $personalRoom = new Room('Dominiks Zimmer', 2);
+        $personalRoom = new Room('Dominiks Zimmer', $this->getReference('lev2'));
         $this->addReference('Dominiks Zimmer', $personalRoom);
         $manager->persist($personalRoom);
 
-        $upperBalcony = new Room('Balkon', 2);
+        $upperBalcony = new Room('Balkon', $this->getReference('lev2'));
         $manager->persist($upperBalcony);
 
 
         $manager->flush();
     }
 
+    /**
+     * @return int
+     */
+    public function getOrder()
+    {
+        return 1;
+    }
 }

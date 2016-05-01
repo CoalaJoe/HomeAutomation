@@ -21,38 +21,17 @@ trait WakeOnLanTrait
      */
     public function commandTurnOn()
     {
-        $mac_array = explode(':', $this->getMac());
-
-        $hwaddr = '';
-
-        foreach($mac_array AS $octet)
-        {
-            $hwaddr .= chr(hexdec($octet));
+        $macAddressHexadecimal = str_replace(':', '', $this->getMac());
+        // check if $macAddress is a valid mac address
+        if (!ctype_xdigit($macAddressHexadecimal)) {
+            throw new \Exception('Mac address invalid, only 0-9 and a-f are allowed');
         }
-
-        // Create Magic Packet
-
-        $packet = '';
-        for ($i = 1; $i <= 6; $i++)
-        {
-            $packet .= chr(255);
+        $macAddressBinary = pack('H12', $macAddressHexadecimal);
+        $magicPacket      = str_repeat(chr(0xff), 6).str_repeat($macAddressBinary, 16);
+        if (!$fp = fsockopen('udp://'.'255.255.255.0', 7, $errno, $errstr, 2)) {
+            throw new \Exception("Cannot open UDP socket: {$errstr}", $errno);
         }
-
-        for ($i = 1; $i <= 16; $i++)
-        {
-            $packet .= $hwaddr;
-        }
-
-        $sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
-        if ($sock)
-        {
-            $options = socket_set_option($sock, 1, 6, true);
-
-            if ($options >=0)
-            {
-                socket_sendto($sock, $packet, strlen($packet), 0, '255.255.255.0', 7);
-                socket_close($sock);
-            }
-        }
+        fputs($fp, $magicPacket);
+        fclose($fp);
     }
 }

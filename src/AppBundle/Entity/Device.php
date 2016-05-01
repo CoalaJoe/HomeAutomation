@@ -28,6 +28,12 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class Device implements DeviceInterface
 {
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    protected $mac;
+    /**
      * @var int
      *
      * @ORM\Id()
@@ -35,28 +41,24 @@ abstract class Device implements DeviceInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string")
      */
     private $ip;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string")
      */
     private $apiKey;
-
     /**
      * @var bool
      *
      * @ORM\Column(type="boolean")
      */
     private $controllable;
-
     /**
      * @var Room
      *
@@ -64,27 +66,18 @@ abstract class Device implements DeviceInterface
      * @ORM\JoinColumn(name="room_id", referencedColumnName="id")
      */
     private $room;
-
     /**
      * @var bool
      *
      * @ORM\Column(type="boolean")
      */
     private $authorized;
-
     /**
      * @var string
      *
      * @ORM\Column(type="string")
      */
     private $icon;
-
-    /**
-     * @var string
-     * 
-     * @ORM\Column(type="string")
-     */
-    protected $mac;
 
     /**
      * Device constructor.
@@ -205,9 +198,9 @@ abstract class Device implements DeviceInterface
     /**
      * @param resource $curl
      *
-     * @return array
+     * @return object
      */
-    protected function getJson(resource &$curl):array
+    protected function getJson(&$curl)
     {
         $output = curl_exec($curl);
         curl_close($curl);
@@ -282,5 +275,64 @@ abstract class Device implements DeviceInterface
     public function getDeviceName()
     {
         return 'Gerät';
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return "default";
+    }
+
+    /**
+     * @param null $interfaces
+     *
+     * @return array
+     */
+    public function getCommands($interfaces = null):array
+    {
+        if (!$interfaces) {
+            $interfaces = class_implements(__CLASS__);
+        }
+        if (!is_array($interfaces)) {
+            $interfaces = [$interfaces];
+        }
+        $methods = [];
+        foreach ($interfaces as $interface) {
+            foreach (get_class_methods($interface) as $method) {
+                if (substr($method, 0, 7) === 'command') {
+                    $methods[$interface][] = $method;
+                }
+            }
+        }
+
+        $commands = [];
+        foreach ($methods as $interfaceName => $interface) {
+            foreach ($interface as $method) {
+                $constName    = substr($method, 7);
+                $constName[0] = strtolower($constName[0]);
+                $func         = create_function('$c', 'return "_" . strtolower($c[1]);');
+                $constName    = strtoupper(preg_replace_callback('/([A-Z])/', $func, $constName));
+
+                $rc    = new \ReflectionClass($interfaceName);
+                $const = $rc->getConstant($constName);
+                reset($const);
+
+                $commands[key($const)] = [
+                    reset($const) => $method
+                ];
+            }
+        }
+
+        return $commands;
+    }
+
+    /**
+     * @return null
+     */
+    public function getTemplateCommands()
+    {
+        return null;
     }
 }

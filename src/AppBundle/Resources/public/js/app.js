@@ -31,6 +31,7 @@ var app = {
             }
             app.unboot();
             $('.navbar-collapse.collapse').slideUp(200);
+            history.pushState(null, "Heimautomation", address);
             $.ajax(
                 {
                     'url':      address,
@@ -38,7 +39,6 @@ var app = {
                     'complete': function(data) {
                         $('main').html(data.responseText);
                         app.init(false);
-                        history.pushState(null, "Heimautomation", address);
                     }
                 }
             );
@@ -70,8 +70,39 @@ var app = {
             }
         });
 
+        $body.on('change', '#chooseLevel', function() {
+            var $selected   = $(this).find('option:selected');
+            var $chooseRoom = $('#chooseRoom');
+            $chooseRoom.children().each(function() {
+                if ($(this).val() !== '') $(this).remove();
+            });
+            if ($selected.attr('value') !== '') {
+                $chooseRoom.parent().parent().slideDown();
+                $.getJSON(Routing.generate('app_get_rooms_route', {'level': $selected.attr('value')}), function(data) {
+                    data = JSON.parse(data);
+                    for (var i in data) {
+                        var room = data[i];
+                        $chooseRoom.append('<option value="' + room.id + '">' + room.name + '</option>');
+                    }
+                    $chooseRoom.removeAttr('disabled');
+                });
+            } else {
+                $chooseRoom.attr('disabled', 'disabled');
+                $chooseRoom.parent().parent().slideUp();
+            }
+        });
+
+        $body.on('change', '#chooseRoom', function() {
+            var $selected = $(this).find('option:selected');
+            if ($selected.attr('value') !== '') {
+                $('.btn-primary.form-submit').removeAttr('disabled');
+            } else {
+                $('.btn-primary.form-submit').attr('disabled', 'disabled');
+            }
+        });
+
         $body.on('click', '.btn-command', function() {
-            var command = $(this).data('command');
+            var command  = $(this).data('command');
             var deviceId = $('.device-header').data('id');
 
             $.getJSON(Routing.generate('app_device_control_receiver_route', {'id': deviceId, 'command': command}), function(data) {
@@ -83,6 +114,7 @@ var app = {
     removeEventListeners: function() {
         var $body = $('body');
         $body.unbind('click');
+        $body.unbind('change');
     }
 };
 

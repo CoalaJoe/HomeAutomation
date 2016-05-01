@@ -16,20 +16,10 @@ namespace AppBundle\Entity\Interfaces\SmartTV;
  */
 interface Navigatable
 {
-    const UP = ['Auf' => 'keyboard_arrow_up'];
-    const DOWN = ['Ab' => 'keyboard_arrow_down'];
-    const LEFT = ['Links' => 'keyboard_arrow_left'];
+    const UP    = ['Auf' => 'keyboard_arrow_up'];
+    const DOWN  = ['Ab' => 'keyboard_arrow_down'];
+    const LEFT  = ['Links' => 'keyboard_arrow_left'];
     const RIGHT = ['Rechts' => 'keyboard_arrow_right'];
-
-    /**
-     * @return mixed
-     */
-    public function commandUp();
-
-    /**
-     * @return mixed
-     */
-    public function commandDown();
 
     /**
      * @return mixed
@@ -39,6 +29,16 @@ interface Navigatable
     /**
      * @return mixed
      */
+    public function commandUp();
+
+    /**
+     * @return mixed
+     */
     public function commandRight();
+
+    /**
+     * @return mixed
+     */
+    public function commandDown();
 
 }

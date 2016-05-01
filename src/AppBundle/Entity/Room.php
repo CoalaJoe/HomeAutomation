@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @package AppBundle\Entity
  */
-class Room
+class Room implements \JsonSerializable
 {
     /**
      * @var int
@@ -38,9 +38,10 @@ class Room
     private $name;
 
     /**
-     * @var int
+     * @var Level
      *
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Level", inversedBy="rooms")
+     * @ORM\JoinColumn(name="level_id", referencedColumnName="id")
      */
     private $level;
 
@@ -57,7 +58,7 @@ class Room
      * @param string|null $name
      * @param int         $level
      */
-    public function __construct(string $name = null, int $level = null)
+    public function __construct(string $name = null, Level $level = null)
     {
         $this->devices = new ArrayCollection();
         $this->name    = $name;
@@ -75,7 +76,7 @@ class Room
     /**
      * @return int
      */
-    public function getLevel():int
+    public function getLevel():Level
     {
         return $this->level;
     }
@@ -85,29 +86,9 @@ class Room
      *
      * @return $this
      */
-    public function setLevel(int $level)
+    public function setLevel(Level $level)
     {
         $this->level = $level;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName():string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName(string $name)
-    {
-        $this->name = $name;
 
         return $this;
     }
@@ -134,13 +115,13 @@ class Room
 
     /**
      * @param Device $device
-     * 
+     *
      * @return $this
      */
     public function addDevice(Device $device)
     {
         $this->devices->add($device);
-        
+
         return $this;
     }
 
@@ -150,5 +131,37 @@ class Room
     function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getName():string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    function jsonSerialize()
+    {
+        return [
+            'id'    => $this->id,
+            'name'  => $this->name,
+            'level' => $this->level
+        ];
     }
 }

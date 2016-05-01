@@ -19,7 +19,6 @@ use AppBundle\Entity\Interfaces\SmartTV\Enterable;
 use AppBundle\Entity\Interfaces\SmartTV\Navigatable;
 use AppBundle\Entity\Interfaces\SmartTVInterface;
 use AppBundle\Entity\Interfaces\StandByChangeable;
-use AppBundle\Entity\Interfaces\WakeOnLanCapable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,11 +28,10 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @package AppBundle\Entity
  */
-class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChangeable, WakeOnLanCapable, ChannelChangeable, Authorizable, VolumeChangeable, Mutable, Navigatable, Enterable, BackToMenu, SubtitleChangeable
+class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChangeable, ChannelChangeable, Authorizable, VolumeChangeable, Mutable, Navigatable, Enterable, BackToMenu, SubtitleChangeable
 {
-    use WakeOnLanTrait;
-
     const COMMAND_POWER_OFF                  = 'AAAAAQAAAAEAAAAvAw==';
+    const COMMAND_POWER_ON                   = 'AAAAAQAAAAEAAAAuAw==';
     const COMMAND_VOLUME_DOWN                = 'AAAAAQAAAAEAAAATAw==';
     const COMMAND_VOLUME_UP                  = 'AAAAAQAAAAEAAAASAw==';
     const COMMAND_MUTE_TOGGLE                = 'AAAAAQAAAAEAAAAUAw==';
@@ -130,38 +128,13 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
     }
 
     /**
+     * @param null $interfaces
+     *
      * @return array
      */
-    public function getCommands():array
+    public function getCommands($interfaces = null):array
     {
-        $interfaces = class_implements(__CLASS__);
-        $methods    = [];
-        foreach ($interfaces as $interface) {
-            foreach (get_class_methods($interface) as $method) {
-                if (substr($method, 0, 7) === 'command') {
-                    $methods[$interface][] = $method;
-                }
-            }
-        }
-
-        $commands = [];
-        foreach ($methods as $interfaceName => $interface) {
-            foreach ($interface as $method) {
-                $constName    = substr($method, 7);
-                $constName[0] = strtolower($constName[0]);
-                $func         = create_function('$c', 'return "_" . strtolower($c[1]);');
-                $constName    = strtoupper(preg_replace_callback('/([A-Z])/', $func, $constName));
-
-                $rc    = new \ReflectionClass($interfaceName);
-                $const = $rc->getConstant($constName);
-                reset($const);
-
-                $commands[key($const)] = [
-                    reset($const) => $method
-                ];
-            }
-        }
-
+        $commands = parent::getCommands(class_implements(__CLASS__));
         $commands += $this->getInputs();
 
         return $commands;
@@ -176,6 +149,7 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
             'HDMI 1'  => ['settings_input_hdmi' => 'commandHDMI1'],
             'HDMI 2'  => ['settings_input_hdmi' => 'commandHDMI2'],
             'HDMI 3'  => ['settings_input_hdmi' => 'commandHDMI3'],
+            'HDMI 4'  => ['settings_input_hdmi' => 'commandHDMI4'],
             'Digital' => ['settings_input_hdmi' => 'commandDigital']
         ];
     }
@@ -396,8 +370,18 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
      */
     public function commandStandBy()
     {
+        // Get current status.
+        $curl = $this->getBaseCurl($this->getIp().'/sony/system');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, '{"id":4,"method":"getPowerStatus","version":"1.0","params":[]}');
+        $status = $this->getJson($curl);
+
         $curl = $this->getBaseCurl($this->getBaseUrl());
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_POWER_OFF));
+
+        if ($status->result[0]->status === 'standby') {
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_POWER_ON));
+        } else {
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_POWER_OFF));
+        }
 
         $result = curl_exec($curl);
         curl_close($curl);
@@ -571,5 +555,37 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
         curl_close($curl);
 
         return $result;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTemplateCommands()
+    {
+        $powerToggle = parent::getCommands('AppBundle\Entity\Interfaces\StandByChangeable');
+        $menuButton  = parent::getCommands('AppBundle\Entity\Interfaces\SmartTV\BackToMenu');
+        $navigation  = parent::getCommands('AppBundle\Entity\Interfaces\SmartTV\Navigatable');
+        $volume      = parent::getCommands('AppBundle\Entity\Interfaces\Audio\VolumeChangeable');
+
+        return $powerToggle + $menuButton + $navigation + $volume + $this->getInputs();
+    }
+
+    /**
+     * @param string $namespace
+     *
+     * @return array
+     */
+    public function getButton(string $namespace)
+    {
+
+        return parent::getCommands($namespace);
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return "sonySmartTv";
     }
 }
