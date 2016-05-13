@@ -227,36 +227,6 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
     }
 
     /**
-     * @return string
-     */
-    public function getMac():string
-    {
-        return $this->mac;
-    }
-
-    /**
-     * @param string $mac
-     *
-     * @return $this|mixed
-     */
-    public function setMac(string $mac)
-    {
-        $mac = str_replace('-', ':', $mac);
-        $mac = str_replace('.', ':', $mac);
-        if (strlen($mac) !== 17) {
-            $mac = str_replace(':', '', $mac);
-            $mac = substr_replace($mac, ':', 2, 0);
-            $mac = substr_replace($mac, ':', 5, 0);
-            $mac = substr_replace($mac, ':', 8, 0);
-            $mac = substr_replace($mac, ':', 11, 0);
-            $mac = substr_replace($mac, ':', 14, 0);
-        }
-        $this->mac = $mac;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function commandChannelPrevious()

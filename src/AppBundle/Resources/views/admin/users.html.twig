@@ -1,0 +1,45 @@
+{% extends app.request.xmlHttpRequest
+? 'AppBundle::ajax-base.html.twig'
+: 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="well bootable boot-start">
+            <h1>Benutzer</h1>
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>Benutzername</th>
+                    <th>Typ</th>
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                    <th>Raum</th>
+                    <th>E-Mail</th>
+                    <th>Erstellt am</th>
+                    <th>Aktiv</th>
+                </tr>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        {% if user.type == 1 %}
+                        <td>Administrator</td>
+                        {% elseif user.type == 2 %}
+                        <td>Familienmitglied</td>
+                        {% elseif user.type == 3 %}
+                        <td>Besucher</td>
+                        {% else %}
+                        <td>Demo</td>
+                        {% endif %}
+                        <td>{{ user.firstname }}</td>
+                        <td>{{ user.lastname }}</td>
+                        <td>{{ user.settings.room.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.createdAt|date('d.m.Y') }}</td>
+                        <td>{{ user.active ? 'aktiv':'inaktiv' }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

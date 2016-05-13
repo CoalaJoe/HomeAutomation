@@ -1,15 +1,18 @@
 {% extends app.request.xmlHttpRequest
 ? 'AppBundle::ajax-base.html.twig'
-: 'AppBundle::base.html.twig'%}
+: 'AppBundle::base.html.twig' %}
 
 {% block body %}
     <div class="container">
         <div class="well bootable boot-start">
             {% if is_granted('ROLE_FAMILY') %}
-            <h1>Willkommen Zuhause {{ app.user.firstname }}</h1>
+                <h1>Hallo {{ app.user.firstname }}<br/><span class="small">{{ app.user.settings.room.name }}</span></h1>
             {% else %}
-            <h1>Übersicht</h1>
+                <h1>Übersicht<br/><span class="small">{{ app.user.settings.room.name }}</span></h1>
             {% endif %}
+            <div class="temperature">
+                <span class="temp">25°</span>
+            </div>
             {% if devices|length != 0 %}
                 {% for device in devices %}
                     {% if loop.index % 2 == 1 %}

@@ -11,7 +11,16 @@ var app = {
         app.boot();
         app.setEventListeners();
         app.applyFancyTransitions();
+        window.addEventListener('popstate', function(e) {
+            app.unboot();
+            if (e.state === null) {
+                window.location.reload();
+            }
+            $('main').html(e.state);
+            app.boot();
+        });
     },
+
     boot: function() {
         $('.bootable.boot-start').each(function(index) {
             var that = this;
@@ -23,15 +32,24 @@ var app = {
         $('.slideDown').delay(1000).slideDown(600);
     },
 
+    requestVoiceInput: function() {
+        var voiceText         = document.querySelector('.modal-body span');
+        voiceText.textContent = '';
+        $('#voiceInput').modal();
+        setTimeout(function() {
+            writeText(voiceText, 'Ich höre . . .');
+        }, 500);
+    },
+
     applyFancyTransitions: function() {
-        $('body').on('click', '.link', function() {
+        $('body').on('click', '.link', function(event) {
+            event.preventDefault();
             var address = this.href;
             if (address === window.location.href) {
                 return false;
             }
             app.unboot();
             $('.navbar-collapse.collapse').slideUp(200);
-            history.pushState(null, "Heimautomation", address);
             $.ajax(
                 {
                     'url':      address,
@@ -39,6 +57,7 @@ var app = {
                     'complete': function(data) {
                         $('main').html(data.responseText);
                         app.init(false);
+                        history.pushState(data.responseText, "Heimautomation - " + $(this).textContent, address);
                     }
                 }
             );
@@ -73,6 +92,7 @@ var app = {
         $body.on('change', '#chooseLevel', function() {
             var $selected   = $(this).find('option:selected');
             var $chooseRoom = $('#chooseRoom');
+            $('.btn-primary.form-submit').attr('disabled', 'disabled');
             $chooseRoom.children().each(function() {
                 if ($(this).val() !== '') $(this).remove();
             });
@@ -117,5 +137,17 @@ var app = {
         $body.unbind('change');
     }
 };
+
+function writeText(node, text, i) {
+    i          = i || 0;
+    var length = text.length;
+    setTimeout(function() {
+        node.textContent = text.substring(0, i);
+        if (i !== length) {
+            ++i;
+            writeText(node, text, i);
+        }
+    }, 80 + (Math.random() * 100) + 1);
+}
 
 app.init();

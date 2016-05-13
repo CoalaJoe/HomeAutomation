@@ -42,10 +42,9 @@ class AppController extends Controller
         $room = $this->getUser()->getSettings()->getRoom();
         if (!$room) {
 
-            // redirect to choose room.
+            return $this->redirectToRoute('app_set_room_route');
         }
         $devices = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Device')->findBy(['room' => $room->getId()]);
-
 
         return $this->render('AppBundle:app:overview.html.twig', ['devices' => $devices]);
     }

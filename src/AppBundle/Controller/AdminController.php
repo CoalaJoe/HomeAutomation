@@ -34,6 +34,22 @@ class AdminController extends Controller
      */
     public function devicesAction(Request $request)
     {
-        return $this->render('@App/admin/devices.html.twig');
+        $devices = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Device')->findAll();
+        
+        return $this->render('@App/admin/devices.html.twig', ['devices' => $devices]);
+    }
+
+    /**
+     * @Route("/users", name="admin_users_route")
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function userAction(Request $request)
+    {
+        $users = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:User')->findAll();
+        
+        return $this->render('@App/admin/users.html.twig', ['users' => $users]);
     }
 }

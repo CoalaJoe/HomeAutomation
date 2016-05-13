@@ -1,8 +1,8 @@
 {% spaceless %}
-<!DOCTYPE html>
-<html lang="{{ app.request.locale }}">
+    <!DOCTYPE html>
+    <html lang="{{ app.request.locale }}">
     <head>
-        <meta charset="UTF-8" />
+        <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Hausautomation{% endblock %}</title>
@@ -12,7 +12,7 @@
             <link rel="stylesheet" href="/assets/vendor/bootstrap-material-design/dist/css/ripples.min.css">
             <link rel="stylesheet" href="/bundles/app/css/style.css">
         {% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         {% block predict %}
@@ -44,13 +44,14 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a href="{{ path('admin_devices_route') }}" class="link"><i class="material-icons">devices</i> Geräte</a></li>
+                                    <li><a href="{{ path('admin_users_route') }}" class="link"><i class="material-icons">group</i> Benutzer</a></li>
                                 </ul>
                             </li>
                         {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if is_granted('ROLE_USER') %}
-                            <li><a href="#"><i class="material-icons">mic</i> Spracheingabe</a></li>
+                            <li><a onclick="app.requestVoiceInput()"><i class="material-icons">mic</i> Spracheingabe</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_USER') %}
                             <li><a href="{{ path('logout') }}" onclick="app.unboot();"><i class="material-icons">exit_to_app</i> Logout</a></li>
@@ -64,6 +65,33 @@
         <main>
             {% block body %}{% endblock %}
         </main>
+        <footer>
+        {% block modals %}
+            <div id="voiceInput" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Spracherkennung</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2 col-xs-3">
+                                    <button class="btn btn-fab btn-raised btn-danger btn-lg"><i class="material-icons">mic</i></button>
+                                </div>
+                                <div class="col-md-10 col-sm-10 col-xs-9">
+                                    <span style="line-height: 6rem"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Schliessen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+        </footer>
         {% block javascripts %}
             <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>

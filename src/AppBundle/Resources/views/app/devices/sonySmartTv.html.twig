@@ -1,121 +1,121 @@
 {% spaceless %}
     <div class="container">
-    <div class="well bootable boot-start">
-    <h1 class="device-header" data-id="{{ device.id }}">Gerätesteuerung für {{ device.deviceName }}</h1>
-        <div class="row">
-            <div class="col-md-4 col-sm-4 col-xs-4">
-                {% set standby = device.getButton("AppBundle\\Entity\\Interfaces\\StandByChangeable") %}
-                <div class="well btn btn-danger btn-raised btn-command btn-well" data-command="{{ standby|first|first }}">
-                    <i class="material-icons">{{ standby|first|keys|first }}</i>
-                    <br>
-                    <span>{{ standby|keys|first }}</span>
-                </div>
-            </div>
-            <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
-                {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\BackToMenu") %}
-                <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command|first|first }}">
-                    <i class="material-icons">{{ command|first|keys|first }}</i>
-                    <br>
-                    <span>{{ command|keys|first }}</span>
-                </div>
-            </div>
-        </div>
-        <br/>
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
-                {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\Navigatable") %}
-                <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command["Auf"]|first }}">
-                    <i class="material-icons">{{ command["Auf"]|keys|first }}</i>
-                    <br>
-                   <span>{{ command|keys[1] }}</span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 col-sm-4 col-xs-4">
-                {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\Navigatable") %}
-                <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command|first|first }}">
-                    <i class="material-icons">{{ command|first|keys|first }}</i>
-                    <br>
-                    <span>{{ command|keys|first }}</span>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-4 col-xs-4">
-                {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\Enterable") %}
-                <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command|first|first }}">
-                    <i class="material-icons">{{ command|first|keys|first }}</i>
-                    <br>
-                    <span>{{ command|keys|first }}</span>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-4 col-xs-4">
-                {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\Navigatable") %}
-                <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command["Rechts"]|first }}">
-                    <i class="material-icons">{{ command["Rechts"]|keys|first }}</i>
-                    <br>
-                   <span>{{ command|keys[2] }}</span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
-                {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\Navigatable") %}
-                <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command["Ab"]|first }}">
-                    <i class="material-icons">{{ command["Ab"]|keys|first }}</i>
-                    <br>
-                    <span>{{ command|keys[3] }}</span>
-                </div>
-            </div>
-        </div>
-        <br/>
-        <div class="row">
-            <div class="col-md-4 col-sm-4 col-xs-4">
-                {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\Audio\\VolumeChangeable") %}
-                <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command|first|first }}">
-                    <i class="material-icons">{{ command|first|keys|first }}</i>
-                    <br>
-                    <span>{{ command|keys|first }}</span>
-                </div>
-            </div>
-            <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
-                {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\ChannelChangeable") %}
-                <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command|first|first }}">
-                    <i class="material-icons">{{ command|first|keys|first }}</i>
-                    <br>
-                    <span>{{ command|keys|first }}</span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 col-sm-4 col-xs-4">
-                {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\Audio\\VolumeChangeable") %}
-                <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command["Volume -"]|first }}">
-                    <i class="material-icons">{{ command["Volume -"]|keys|first }}</i>
-                    <br>
-                    <span>{{ command|keys[1] }}</span>
-                </div>
-            </div>
-            <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
-                {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\ChannelChangeable") %}
-                <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command["Kanal -"]|first }}">
-                    <i class="material-icons">{{ command["Kanal -"]|keys|first }}</i>
-                    <br>
-                    <span>{{ command|keys[1] }}</span>
-                </div>
-            </div>
-        </div>
-        <br/>
-        <div class="row">
-            {% for name, input in device.getInputs() %}
+        <div class="well bootable boot-start">
+        <h1 class="device-header" data-id="{{ device.id }}">Gerätesteuerung für {{ device.deviceName }}</h1>
+            <div class="row">
                 <div class="col-md-4 col-sm-4 col-xs-4">
-                    <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ input|first }}">
-                        <i class="material-icons">{{ input|keys|first }}</i>
+                    {% set standby = device.getButton("AppBundle\\Entity\\Interfaces\\StandByChangeable") %}
+                    <div class="well btn btn-danger btn-raised btn-command btn-well" data-command="{{ standby|first|first }}">
+                        <i class="material-icons">{{ standby|first|keys|first }}</i>
                         <br>
-                        <span>{{ name }}</span>
+                        <span>{{ standby|keys|first }}</span>
                     </div>
                 </div>
-            {% endfor %}
+                <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
+                    {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\BackToMenu") %}
+                    <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command|first|first }}">
+                        <i class="material-icons">{{ command|first|keys|first }}</i>
+                        <br>
+                        <span>{{ command|keys|first }}</span>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
+                    {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\Navigatable") %}
+                    <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command["Auf"]|first }}">
+                        <i class="material-icons">{{ command["Auf"]|keys|first }}</i>
+                        <br>
+                       <span>{{ command|keys[1] }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\Navigatable") %}
+                    <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command|first|first }}">
+                        <i class="material-icons">{{ command|first|keys|first }}</i>
+                        <br>
+                        <span>{{ command|keys|first }}</span>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\Enterable") %}
+                    <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command|first|first }}">
+                        <i class="material-icons">{{ command|first|keys|first }}</i>
+                        <br>
+                        <span>{{ command|keys|first }}</span>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\Navigatable") %}
+                    <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command["Rechts"]|first }}">
+                        <i class="material-icons">{{ command["Rechts"]|keys|first }}</i>
+                        <br>
+                       <span>{{ command|keys[2] }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
+                    {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\Navigatable") %}
+                    <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command["Ab"]|first }}">
+                        <i class="material-icons">{{ command["Ab"]|keys|first }}</i>
+                        <br>
+                        <span>{{ command|keys[3] }}</span>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\Audio\\VolumeChangeable") %}
+                    <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command|first|first }}">
+                        <i class="material-icons">{{ command|first|keys|first }}</i>
+                        <br>
+                        <span>{{ command|keys|first }}</span>
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
+                    {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\ChannelChangeable") %}
+                    <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command|first|first }}">
+                        <i class="material-icons">{{ command|first|keys|first }}</i>
+                        <br>
+                        <span>{{ command|keys|first }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\Audio\\VolumeChangeable") %}
+                    <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command["Volume -"]|first }}">
+                        <i class="material-icons">{{ command["Volume -"]|keys|first }}</i>
+                        <br>
+                        <span>{{ command|keys[1] }}</span>
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
+                    {% set command = device.getButton("AppBundle\\Entity\\Interfaces\\SmartTV\\ChannelChangeable") %}
+                    <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command["Kanal -"]|first }}">
+                        <i class="material-icons">{{ command["Kanal -"]|keys|first }}</i>
+                        <br>
+                        <span>{{ command|keys[1] }}</span>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                {% for name, input in device.getInputs() %}
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ input|first }}">
+                            <i class="material-icons">{{ input|keys|first }}</i>
+                            <br>
+                            <span>{{ name }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-</div>
 {% endspaceless %}

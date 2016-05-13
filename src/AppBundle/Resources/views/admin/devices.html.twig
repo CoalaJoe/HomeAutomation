@@ -1,11 +1,31 @@
 {% extends app.request.xmlHttpRequest
 ? 'AppBundle::ajax-base.html.twig'
-: 'AppBundle::base.html.twig'%}
+: 'AppBundle::base.html.twig' %}
 
 {% block body %}
     <div class="container">
         <div class="well bootable boot-start">
             <h1>Geräte</h1>
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>Gerät</th>
+                    <th>Raum</th>
+                    <th>IP</th>
+                    <th>MAC</th>
+                    <th>Authorisiert</th>
+                </tr>
+                {% for device in devices %}
+                    <tr>
+                        <td>{{ device.id }}</td>
+                        <td>{{ device.deviceName }}</td>
+                        <td>{{ device.room.name }}</td>
+                        <td>{{ device.ip }}</td>
+                        <td>{{ device.mac }}</td>
+                        <td>{{ device.authorized ? 'ja':'nein' }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
 {% endblock %}

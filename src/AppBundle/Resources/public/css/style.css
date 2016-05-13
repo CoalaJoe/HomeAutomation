@@ -14,6 +14,13 @@ select:-moz-focusring{
     text-shadow: 0 0 0 #000000;
 }
 
+.btn:focus{
+    outline:            none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow:    none !important;
+    box-shadow:         none !important;
+}
+
 /* Animate tooltips */
 
 @keyframes shake{
@@ -136,28 +143,64 @@ main{
     padding-bottom: 160px;
 }
 
+a{
+    cursor: pointer;
+}
+
+.btn.btn-lg{
+    width:  65px;
+    height: 65px;
+}
+
+.btn.btn-lg i.material-icons{
+    font-size: 32px;
+    transform: translate(-16px, -12px);
+}
+
+.btn.btn-well span{
+    text-overflow: ellipsis;
+    width:         100%;
+    display:       inline-block;
+    overflow:      hidden;
+}
+
 .navbar-fixed-top, .dropdown-menu{
     box-shadow: 0 7px 20px 3px rgba(20, 20, 20, 0.25);
+}
+
+main .container .well{
+    position: relative;
 }
 
 .btn-well{
     width: 100%;
 }
 
+.temp{
+    position:  absolute;
+    right:     5%;
+    top:       10%;
+    font-size: 4rem;
+    color:     rgba(30, 30, 30, .4);
+}
+
+.temp.low{
+    color: rgba(30, 30, 255, .4);
+}
+
+.temp.high{
+    color: rgba(255, 30, 30, .4);
+}
+
 /* Small devices */
 @media screen and (max-width: 768px){
-    body .container .jumbotron, body .container .well, body .container-fluid .jumbotron, body .container-fluid .well{
-        padding-left:  5px;
-        padding-right: 5px;
-    }
-
     .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{
-        padding-left:  12px;
-        padding-right: 14px;
+        padding-left:  13px;
+        padding-right: 15px;
     }
 
-    .container {
-        padding-right: 10px;
-        padding-left: 10px;
+    .container{
+        padding-right: 12px;
+        padding-left:  12px;
     }
 }
