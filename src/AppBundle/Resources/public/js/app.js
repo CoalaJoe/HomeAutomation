@@ -48,8 +48,11 @@ var app = {
             if (address === window.location.href) {
                 return false;
             }
+            var navToggle = $('.navbar-toggle');
             app.unboot();
-            $('.navbar-collapse.collapse').slideUp(200);
+            if (navToggle.is(':visible')) {
+                navToggle.click();
+            }
             $.ajax(
                 {
                     'url':      address,
@@ -128,13 +131,56 @@ var app = {
             $.getJSON(Routing.generate('app_device_control_receiver_route', {'id': deviceId, 'command': command}), function(data) {
                 console.log(data);
             });
-        })
+        });
+
+        $body.on('click', '.btn-float', function() {
+            var route = $(this).data('route');
+            if (!route) {
+                return false;
+            }
+            var address = Routing.generate(route);
+            $.ajax(
+                {
+                    'url':      address,
+                    'method':   'get',
+                    'complete': function(data) {
+                        $('.modal-empty').find('.modal-dialog').find('.modal-content').find('.modal-body').html(data.responseText).parent().parent().parent().modal();
+                    }
+                }
+            );
+        });
+
+        $body.on('submit', '.form-modal-ajax', function() {
+            var action = $(this).attr('action');
+            var method = $(this).attr('method');
+            var data   = $(this).serialize();
+            var form   = this;
+            $.ajax(
+                {
+                    'url':     action,
+                    'method':  method,
+                    'data':    data,
+                    'complete': function(data) {
+                        if (data.readyState === 4) {
+                            if (data.status === 201) {
+                                $(form).closest('.modal').modal('hide');
+                            } else if (data.status === 200) {
+                                $(form).closest('.modal-body').html(data.reponseText).parent().parent().parent();
+                            }
+                        }
+                    }
+                }
+            );
+
+            return false;
+        });
     },
 
     removeEventListeners: function() {
         var $body = $('body');
         $body.unbind('click');
         $body.unbind('change');
+        $body.unbind('submit');
     }
 };
 

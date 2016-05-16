@@ -1,0 +1,10 @@
+{% extends app.request.xmlHttpRequest
+? 'AppBundle::ajax-base.html.twig'
+: 'AppBundle::base.html.twig'%}
+
+{% block body %}
+    {{ form_start(form, {'action': path('api_user_new'), 'attr': {'class': 'form-modal-ajax'}}) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-success">Create</button>
+    {{ form_end(form) }}
+{% endblock %}

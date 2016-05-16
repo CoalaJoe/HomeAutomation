@@ -1,0 +1,18 @@
+{% extends app.request.xmlHttpRequest
+? 'AppBundle::ajax-base.html.twig'
+: 'AppBundle::base.html.twig'%}
+
+{% block body %}
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input type="submit" value="Edit" />
+    {{ form_end(edit_form) }}
+
+    <ul>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

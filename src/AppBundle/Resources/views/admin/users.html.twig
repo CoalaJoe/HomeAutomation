@@ -3,43 +3,44 @@
 : 'AppBundle::base.html.twig' %}
 
 {% block body %}
-    <div class="container">
+    <div class="container" style="position: relative">
         <div class="well bootable boot-start">
             <h1>Benutzer</h1>
-            <table class="table table-striped">
-                <tr>
-                    <th>ID</th>
-                    <th>Benutzername</th>
-                    <th>Typ</th>
-                    <th>Vorname</th>
-                    <th>Nachname</th>
-                    <th>Raum</th>
-                    <th>E-Mail</th>
-                    <th>Erstellt am</th>
-                    <th>Aktiv</th>
-                </tr>
-                {% for user in users %}
+            <div style="overflow-x: auto">
+                <table class="table table-striped">
                     <tr>
-                        <td>{{ user.id }}</td>
-                        <td>{{ user.username }}</td>
-                        {% if user.type == 1 %}
-                        <td>Administrator</td>
-                        {% elseif user.type == 2 %}
-                        <td>Familienmitglied</td>
-                        {% elseif user.type == 3 %}
-                        <td>Besucher</td>
-                        {% else %}
-                        <td>Demo</td>
-                        {% endif %}
-                        <td>{{ user.firstname }}</td>
-                        <td>{{ user.lastname }}</td>
-                        <td>{{ user.settings.room.name }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.createdAt|date('d.m.Y') }}</td>
-                        <td>{{ user.active ? 'aktiv':'inaktiv' }}</td>
+                        <th class="hidden-sm hidden-xs">ID</th>
+                        <th>Benutzername</th>
+                        <th>Typ</th>
+                        <th>Vorname</th>
+                        <th>Nachname</th>
+                        <th class="hidden-xs">Raum</th>
+                        <th class="hidden-sm hidden-xs">Erstellt am</th>
+                        <th>Aktiv</th>
                     </tr>
-                {% endfor %}
-            </table>
+                    {% for user in users %}
+                        <tr>
+                            <td class="hidden-sm hidden-xs">{{ user.id }}</td>
+                            <td>{{ user.username }}</td>
+                            {% if user.type == 1 %}
+                            <td>Administrator</td>
+                            {% elseif user.type == 2 %}
+                            <td>Familienmitglied</td>
+                            {% elseif user.type == 3 %}
+                            <td>Besucher</td>
+                            {% else %}
+                            <td>Demo</td>
+                            {% endif %}
+                            <td>{{ user.firstname }}</td>
+                            <td>{{ user.lastname }}</td>
+                            <td class="hidden-xs">{{ user.settings.room.name ?? 'Kein' }}</td>
+                            <td class="hidden-sm hidden-xs">{{ user.createdAt|date('d.m.Y') }}</td>
+                            <td>{{ user.active ? 'aktiv':'inaktiv' }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
+        <button class="btn btn-danger btn-raised btn-fab btn-float bootable boot-start" data-route="api_user_new"><i class="material-icons">add</i></button>
     </div>
 {% endblock %}

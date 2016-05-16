@@ -6,26 +6,28 @@
     <div class="container">
         <div class="well bootable boot-start">
             <h1>Geräte</h1>
-            <table class="table table-striped">
-                <tr>
-                    <th>ID</th>
-                    <th>Gerät</th>
-                    <th>Raum</th>
-                    <th>IP</th>
-                    <th>MAC</th>
-                    <th>Authorisiert</th>
-                </tr>
-                {% for device in devices %}
+            <div style="overflow-x: auto">
+                <table class="table table-striped">
                     <tr>
-                        <td>{{ device.id }}</td>
-                        <td>{{ device.deviceName }}</td>
-                        <td>{{ device.room.name }}</td>
-                        <td>{{ device.ip }}</td>
-                        <td>{{ device.mac }}</td>
-                        <td>{{ device.authorized ? 'ja':'nein' }}</td>
+                        <th class="hidden-sm hidden-xs">ID</th>
+                        <th>Gerät</th>
+                        <th>Raum</th>
+                        <th class="hidden-sm hidden-xs">IP</th>
+                        <th class="hidden-sm hidden-xs">MAC</th>
+                        <th>Authorisiert</th>
                     </tr>
-                {% endfor %}
-            </table>
+                    {% for device in devices %}
+                        <tr>
+                            <td class="hidden-sm hidden-xs">{{ device.id }}</td>
+                            <td>{{ device.deviceName }}</td>
+                            <td>{{ device.room.name }}</td>
+                            <td class="hidden-sm hidden-xs">{{ device.ip }}</td>
+                            <td class="hidden-sm hidden-xs">{{ device.mac }}</td>
+                            <td>{{ device.authorized ? 'ja':'nein' }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
     </div>
 {% endblock %}

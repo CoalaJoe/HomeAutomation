@@ -126,7 +126,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @return string
      */
-    public function getUsername():string
+    public function getUsername()
     {
         return $this->username;
     }
@@ -146,7 +146,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @return string
      */
-    public function getPassword():string
+    public function getPassword()
     {
         return $this->password;
     }
@@ -166,7 +166,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @return string
      */
-    public function getFirstname():string
+    public function getFirstname()
     {
         return $this->firstname;
     }
@@ -186,7 +186,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @return string
      */
-    public function getLastname():string
+    public function getLastname()
     {
         return $this->lastname;
     }
@@ -206,7 +206,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @return string
      */
-    public function getEmail():string
+    public function getEmail()
     {
         return $this->email;
     }
@@ -351,6 +351,9 @@ class User implements AdvancedUserInterface, \Serializable
         return null;
     }
 
+    /**
+     * @return bool
+     */
     public function isAccountNonExpired()
     {
         if (self::TYPE_ADMIN === $this->type) {
