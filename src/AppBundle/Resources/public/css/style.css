@@ -1,20 +1,20 @@
 /* Reset ugly defaultstyles */
 
-a, a:visited, a:focus, a:active, a:hover{
+a, a:visited, a:focus, a:active, a:hover {
     outline: 0 none !important;
     border:  none;
 }
 
-button::-moz-focus-inner{
+button::-moz-focus-inner {
     border: 0;
 }
 
-select:-moz-focusring{
+select:-moz-focusring {
     color:       transparent;
     text-shadow: 0 0 0 #000000;
 }
 
-.btn:focus{
+.btn:focus {
     outline:            none !important;
     -webkit-box-shadow: none !important;
     -moz-box-shadow:    none !important;
@@ -23,166 +23,170 @@ select:-moz-focusring{
 
 /* Animate tooltips */
 
-@keyframes shake{
-    from, to{
+@keyframes shake {
+    from, to {
         transform: translate3d(0, 0, 0);
     }
 
-    10%, 30%, 50%, 70%, 90%{
+    10%, 30%, 50%, 70%, 90% {
         transform: translate3d(-10px, 0, 0);
     }
 
-    20%, 40%, 60%, 80%{
+    20%, 40%, 60%, 80% {
         transform: translate3d(10px, 0, 0);
     }
 }
 
-.shake{
+.shake {
     animation-name:      shake;
     animation-duration:  1s;
     animation-fill-mode: both;
 }
 
-@keyframes tooltip-top{
-    from{
+@keyframes tooltip-top {
+    from {
         transform: translateY(10px) scale(0.95);
         opacity:   0.7;
     }
-    to{
+    to {
         transform: translateY(0) scale(1);
         opacity:   1;
     }
 }
 
-@keyframes tooltip-right{
-    from{
+@keyframes tooltip-right {
+    from {
         transform: translateX(-10px) scale(0.95);
         opacity:   0.7;
     }
-    to{
+    to {
         transform: translateX(0) scale(1);
     }
 }
 
-@keyframes tooltip-bottom{
-    from{
+@keyframes tooltip-bottom {
+    from {
         transform: translateY(-10px) scale(0.95);
         opacity:   0.7;
     }
-    to{
+    to {
         transform: translateX(0) scale(1);
     }
 }
 
-.tooltip.top{
+.tooltip.top {
     animation-name:     tooltip-top;
     animation-duration: 0.5s;
 }
 
-.tooltip.bottom{
+.tooltip.bottom {
     animation-name:     tooltip-bottom;
     animation-duration: 0.5s;
 }
 
-.tooltip.right{
+.tooltip.right {
     animation-name:     tooltip-right;
     animation-duration: 0.5s;
 }
 
 /* My custom styles */
 
-@keyframes slideInUp{
-    0%{
+@keyframes slideInUp {
+    0% {
         transform: translate3d(0, 100px, 0);
         opacity:   0;
     }
-    80%{
+    80% {
         opacity: 1;
     }
-    100%{
+    100% {
         transform: translate3d(0, 0, 0);
     }
 }
 
-@keyframes slideOutDown{
-    0%{
+@keyframes slideOutDown {
+    0% {
         opacity:   1;
         transform: translate3d(0, 0, 0);
     }
-    80%{
+    80% {
         opacity: 0;
     }
-    100%{
+    100% {
         transform: translate3d(0, 80px, 0);
     }
 }
 
-.bootable{
+.bootable {
     opacity: 0;
 }
 
-.booted:not(.boot){
+.booted:not(.boot) {
     animation: slideOutDown 0.7s;
 }
 
-.boot{
+.boot {
     display:   block;
     animation: slideInUp 0.7s;
     opacity:   1;
 }
 
-.dropdown-menu > li > a{
+.dropdown-menu > li > a {
     font-weight: inherit;
 }
 
 /* Application styles */
 
-main{
+main {
     padding-top:    120px;
     height:         100vh;
     padding-bottom: 160px;
 }
 
-a{
+a {
     cursor: pointer;
 }
 
-.btn.btn-float{
+.btn.btn-float {
     position: absolute;
     right:    10px;
     bottom:   -80px;
 }
 
-.btn.btn-lg{
+.btn.btn-lg {
     width:  65px;
     height: 65px;
 }
 
-.btn.btn-lg i.material-icons{
+.btn.btn-lg i.material-icons {
     font-size: 32px;
     transform: translate(-16px, -12px);
 }
 
-.btn.btn-well span{
+.btn.btn-well span {
     text-overflow: ellipsis;
     width:         100%;
     display:       inline-block;
     overflow:      hidden;
 }
 
-.navbar-fixed-top, .dropdown-menu{
+.navbar-fixed-top, .dropdown-menu {
     box-shadow: 0 7px 20px 3px rgba(20, 20, 20, 0.25);
 }
 
-main .container .well{
+.modal-header {
+    font-size: 2.5rem;
+}
+
+main .container .well {
     position: relative;
 }
 
-.btn-well{
+.btn-well {
     width: 100%;
 }
 
-.temp{
+.temp {
     position:  absolute;
     right:     5%;
     top:       10%;
@@ -190,44 +194,44 @@ main .container .well{
     color:     rgba(30, 30, 30, .4);
 }
 
-.temp.low{
+.temp.low {
     color: rgba(30, 30, 255, .4);
 }
 
-.temp.high{
+.temp.high {
     color: rgba(255, 30, 30, .4);
 }
 
-.controller{
+.controller {
     max-width: 800px;
 }
 
 /* Small devices */
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
 
-    h1{
+    h1 {
         font-size: 30px;
     }
 
-    .temp{
+    .temp {
         font-size: 3.4rem;
     }
 
-    .btn.btn-well span{
+    .btn.btn-well span {
         margin-top: 3px;
         font-size:  12px;
     }
 
-    .controller .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{
+    .controller .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
         padding-left:  3px;
         padding-right: 3px;
     }
 
-    body .container.controller .jumbotron, body .container .well, body .container-fluid .jumbotron, body .container-fluid .well{
+    body .container.controller .jumbotron, body .container .well, body .container-fluid .jumbotron, body .container-fluid .well {
         margin-bottom: 0;
     }
 
-    .container{
+    .container {
         padding-right: 12px;
         padding-left:  12px;
     }

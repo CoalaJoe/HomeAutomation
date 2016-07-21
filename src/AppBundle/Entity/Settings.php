@@ -32,7 +32,7 @@ class Settings
     /**
      * @var Room
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Room")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Room")
      * @ORM\JoinColumn(name="room_id", referencedColumnName="id", nullable=true)
      */
     private $room;

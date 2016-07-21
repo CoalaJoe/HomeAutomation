@@ -1,7 +1,6 @@
-{% extends app.request.xmlHttpRequest
-? 'AppBundle::ajax-base.html.twig'
-: 'AppBundle::base.html.twig'%}
+{% extends 'AppBundle::ajax-base.html.twig' %}
 
+{% block title %}Neuer Benutzer{% endblock %}
 {% block body %}
     {{ form_start(form, {'action': path('api_user_new'), 'attr': {'class': 'form-modal-ajax'}}) }}
         {{ form_widget(form) }}

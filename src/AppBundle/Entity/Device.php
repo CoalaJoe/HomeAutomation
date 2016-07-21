@@ -9,7 +9,7 @@
 namespace AppBundle\Entity;
 
 
-use AppBundle\Entity\Interfaces\DeviceInterface;
+use AppBundle\DeviceHelper\DeviceInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

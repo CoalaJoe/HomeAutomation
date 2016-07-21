@@ -11,3 +11,10 @@ services:
 
     app_smart_tv_handler:
         class: AppBundle\Services\DeviceHandlers\SmartTVHandler
+
+
+
+    app_user_created_listener:
+        class: AppBundle\EventListener\UserCreateListener
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }

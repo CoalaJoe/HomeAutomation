@@ -1,6 +1,4 @@
-{% extends app.request.xmlHttpRequest
-? 'AppBundle::ajax-base.html.twig'
-: 'AppBundle::base.html.twig'%}
+{% extends 'AppBundle::ajax-base.html.twig' %}
 
 {% block body %}
     {{ form_start(edit_form) }}

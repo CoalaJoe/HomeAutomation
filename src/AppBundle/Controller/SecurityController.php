@@ -30,20 +30,23 @@ class SecurityController extends Controller
     {
         $authenticationUtils = $this->get('security.authentication_utils');
 
-        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
-        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        $usernames = $this->get('doctrine.orm.entity_manager')->createQueryBuilder()->select('u.username')->from('AppBundle:User', 'u')->where("u.username != 'admin'")->getQuery()
+        $usernames = $this->get('doctrine.orm.entity_manager')->createQueryBuilder()->select('u.username')->from(
+            'AppBundle:User',
+            'u'
+        )->where("u.username != 'admin'")->getQuery()
             ->getResult();
 
-        return $this->render('AppBundle:security:login.html.twig', array(
+        return $this->render(
+            'AppBundle:security:login.html.twig',
+            array(
                 // last username entered by the user
                 'last_username' => $lastUsername,
-                'error'         => $error,
-                'usernames'     => $usernames
+                'error' => $error,
+                'usernames' => $usernames,
             )
         );
     }
@@ -55,6 +58,5 @@ class SecurityController extends Controller
      */
     public function logoutAction(Request $request)
     {
-        // nothing
     }
 }

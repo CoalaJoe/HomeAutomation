@@ -6,13 +6,13 @@
  * @link   http://aimei.ch/developers/Ashura
  */
 
-namespace AppBundle\Entity\Interfaces;
+namespace AppBundle\DeviceHelper;
 
 
 /**
  * Interface DeviceInterface
  *
- * @package AppBundle\Entity\Interfaces
+ * @package AppBundle\DeviceHelper
  */
 interface DeviceInterface
 {

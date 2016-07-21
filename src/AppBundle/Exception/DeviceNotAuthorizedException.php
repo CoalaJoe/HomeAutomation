@@ -18,6 +18,6 @@ class DeviceNotAuthorizedException extends \Exception
 {
     public function __construct()
     {
-        parent::__construct('Dieses Gerät hat die Heimautomation nicht authorisiert, so dass man es steuern kann.');
+        parent::__construct('Dieses Gerät hat die Heimautomation nicht autorisiert, man kann es erst nach der Autorisation steuern.');
     }
 }

@@ -6,13 +6,13 @@
  * @link   http://aimei.ch/developers/Ashura
  */
 
-namespace AppBundle\Entity\Interfaces\Audio;
+namespace AppBundle\DeviceHelper\Audio;
 
 
 /**
  * Interface VolumeChangeable
  *
- * @package AppBundle\Entity\Interfaces\Audio
+ * @package AppBundle\DeviceHelper\Audio
  */
 interface VolumeChangeable
 {

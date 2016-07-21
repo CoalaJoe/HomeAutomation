@@ -9,6 +9,7 @@
 namespace AppBundle\DataFixtures\ORM;
 
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\User;
@@ -20,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @package AppBundle\DataFixtures
  */
-class LoadUserData implements FixtureInterface, ContainerAwareInterface
+class LoadUserData extends AbstractFixture implements FixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -37,6 +38,12 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $admin = new User();
         $admin->setUsername('admin')->setEmail('dominik-mu@hotmail.com')->setFirstname('Dominik')->setLastname('Müller')->setType(User::TYPE_ADMIN);
         $admin->setPassword($encoder->encodePassword('admin', $admin->getSalt()));
+
+        $manager->persist($admin);
+        $manager->flush();
+
+        $admin = $manager->getRepository('AppBundle:User')->findOneBy(['username' => $admin->getUsername()]);
+        $admin->getSettings()->setRoom($this->getReference('Wohnzimmer'));
 
         $manager->persist($admin);
         $manager->flush();

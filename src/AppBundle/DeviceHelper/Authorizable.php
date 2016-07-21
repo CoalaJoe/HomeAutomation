@@ -6,9 +6,14 @@
  * @link   http://aimei.ch/developers/Ashura
  */
 
-namespace AppBundle\Entity\Interfaces;
+namespace AppBundle\DeviceHelper;
 
 
+/**
+ * Interface Authorizable
+ *
+ * @package AppBundle\DeviceHelper
+ */
 interface Authorizable
 {
     public function requestAccess();

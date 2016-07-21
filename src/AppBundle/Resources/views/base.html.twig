@@ -93,13 +93,14 @@
             <div class="modal fade modal-empty">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-body">
-                        </div>
+                        <div class="modal-header"></div>
+                        <div class="modal-body"></div>
                     </div>
                 </div>
             </div>
         {% endblock %}
         </footer>
+        {% block config %}<script>var config = {'debug': {{ app.environment == 'dev' ? 'true': 'false' }}}</script>{% endblock %}
         {% block javascripts %}
             <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
@@ -107,6 +108,9 @@
             <script src="/assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
             <script src="/assets/vendor/bootstrap-material-design/dist/js/material.min.js"></script>
             <script src="/assets/vendor/bootstrap-material-design/dist/js/ripples.min.js"></script>
+            <script src="/bundles/app/js/ajax-progress.js"></script>
+            <script src="/bundles/app/js/module.js"></script>
+            <script src="/bundles/app/js/loader.js"></script>
             <script src="/bundles/app/js/app.js"></script>
         {% endblock %}
     </body>

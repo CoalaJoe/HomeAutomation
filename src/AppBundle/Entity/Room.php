@@ -56,7 +56,7 @@ class Room implements \JsonSerializable
      * Room constructor.
      *
      * @param string|null $name
-     * @param int         $level
+     * @param Level|int   $level
      */
     public function __construct(string $name = null, Level $level = null)
     {
@@ -74,7 +74,7 @@ class Room implements \JsonSerializable
     }
 
     /**
-     * @return int
+     * @return Level|int
      */
     public function getLevel():Level
     {
@@ -82,7 +82,7 @@ class Room implements \JsonSerializable
     }
 
     /**
-     * @param int $level
+     * @param Level|int $level
      *
      * @return $this
      */

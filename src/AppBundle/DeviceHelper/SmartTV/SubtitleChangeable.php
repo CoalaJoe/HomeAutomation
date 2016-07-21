@@ -6,13 +6,13 @@
  * @link   http://aimei.ch/developers/Ashura
  */
 
-namespace AppBundle\Entity\Interfaces\SmartTV;
+namespace AppBundle\DeviceHelper\SmartTV;
 
 
 /**
  * Interface SubtitleChangeable
  *
- * @package AppBundle\Entity\Interfaces\Audio
+ * @package AppBundle\DeviceHelper\SmartTV
  */
 interface SubtitleChangeable
 {

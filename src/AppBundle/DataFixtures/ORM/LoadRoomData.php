@@ -36,7 +36,7 @@ class LoadRoomData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($fathersRoom);
 
         $livingroom = new Room('Wohnzimmer', $this->getReference('lev1'));
-        $this->addReference('Wohnzimme', $livingroom);
+        $this->addReference('Wohnzimmer', $livingroom);
         $manager->persist($livingroom);
 
         $kitchen = new Room('Küche', $this->getReference('lev1'));

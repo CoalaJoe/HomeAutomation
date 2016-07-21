@@ -9,16 +9,16 @@
 namespace AppBundle\Entity;
 
 
-use AppBundle\Entity\Interfaces\Audio\Mutable;
-use AppBundle\Entity\Interfaces\SmartTV\SubtitleChangeable;
-use AppBundle\Entity\Interfaces\Audio\VolumeChangeable;
-use AppBundle\Entity\Interfaces\Authorizable;
-use AppBundle\Entity\Interfaces\SmartTV\BackToMenu;
-use AppBundle\Entity\Interfaces\SmartTV\ChannelChangeable;
-use AppBundle\Entity\Interfaces\SmartTV\Enterable;
-use AppBundle\Entity\Interfaces\SmartTV\Navigatable;
-use AppBundle\Entity\Interfaces\SmartTVInterface;
-use AppBundle\Entity\Interfaces\StandByChangeable;
+use AppBundle\DeviceHelper\Audio\Mutable;
+use AppBundle\DeviceHelper\SmartTV\SubtitleChangeable;
+use AppBundle\DeviceHelper\Audio\VolumeChangeable;
+use AppBundle\DeviceHelper\Authorizable;
+use AppBundle\DeviceHelper\SmartTV\BackToMenu;
+use AppBundle\DeviceHelper\SmartTV\ChannelChangeable;
+use AppBundle\DeviceHelper\SmartTV\Enterable;
+use AppBundle\DeviceHelper\SmartTV\Navigatable;
+use AppBundle\DeviceHelper\SmartTVInterface;
+use AppBundle\DeviceHelper\StandByChangeable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

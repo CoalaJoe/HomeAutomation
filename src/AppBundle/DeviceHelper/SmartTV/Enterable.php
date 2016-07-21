@@ -6,13 +6,13 @@
  * @link   http://aimei.ch/developers/Ashura
  */
 
-namespace AppBundle\Entity\Interfaces\SmartTV;
+namespace AppBundle\DeviceHelper\SmartTV;
 
 
 /**
  * Interface Enterable
  *
- * @package AppBundle\Entity\Interfaces\SmartTV
+ * @package AppBundle\DeviceHelper\SmartTV
  */
 interface Enterable
 {
