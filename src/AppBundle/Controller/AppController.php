@@ -3,17 +3,14 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Device;
-use AppBundle\Entity\Interfaces\Authorizable;
-use AppBundle\Entity\Interfaces\Controllable;
+use AppBundle\DeviceHelper\Authorizable;
+use AppBundle\DeviceHelper\Controllable;
 use AppBundle\Entity\Room;
-use AppBundle\Entity\SonyBraviaSmartTV;
 use AppBundle\Entity\User;
-use AppBundle\Exception\DeviceNotAuthorizedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -196,13 +193,12 @@ class AppController extends Controller
     {
         $device = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Device')->find($id);
         if (!$device || !$device->isControllable()) {
-            // TODO: Send intention do redirect to homepage
-            return new Response('', 404);
+            return $this->redirectToRoute('homepage');
         }
         if ($device instanceof Authorizable && !$device->isAuthorized()) {
-            // TODO: Send intention to redirect to device authentication
             return $this->redirectToRoute('app_authenticate_device_route', ['deviceId' => $device->getId()]);
         }
+
 
         $this->get('app_device_manager')->send($device, $command);
 

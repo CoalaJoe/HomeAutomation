@@ -175,18 +175,7 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
      */
     protected function getBaseCurl(string $url)
     {
-        $cookieFile = '/tmp/HomeAutomation/Devices/sonyBravia'.$this->getId().'.txt';
-        if (!file_exists($cookieFile)) {
-            if (!file_exists('/tmp/HomeAutomation/Devices/')) {
-                mkdir('/tmp/HomeAutomation/Devices/', '0777', true);
-            }
-            $handle = fopen($cookieFile, 'w');
-            fclose($handle);
-        }
-
         $curl = parent::getBaseCurl($url);
-        curl_setopt($curl, CURLOPT_COOKIEFILE, $cookieFile);
-        curl_setopt($curl, CURLOPT_COOKIEJAR, $cookieFile);
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT_MS, 2000);
         curl_setopt($curl, CURLOPT_HTTPHEADER, ['SOAPAction: "urn:schemas-sony-com:service:IRCC:1#X_SendIRCC"']);
         curl_setopt($curl, CURLOPT_POST, 1);

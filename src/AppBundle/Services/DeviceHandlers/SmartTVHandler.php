@@ -9,7 +9,7 @@
 namespace AppBundle\Services\DeviceHandlers;
 
 use AppBundle\Entity\Device;
-use AppBundle\Entity\Interfaces\SmartTVInterface;
+use AppBundle\DeviceHelper\SmartTVInterface;
 use AppBundle\Exception\DeviceNotAuthorizedException;
 
 

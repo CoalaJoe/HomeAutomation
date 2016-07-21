@@ -10,7 +10,7 @@ namespace AppBundle\Services;
 
 
 use AppBundle\Entity\Device;
-use AppBundle\Entity\Interfaces\SmartTVInterface;
+use AppBundle\DeviceHelper\SmartTVInterface;
 use AppBundle\Services\DeviceHandlers\SmartTVHandler;
 
 /**
