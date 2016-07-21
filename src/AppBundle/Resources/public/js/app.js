@@ -10,6 +10,8 @@
 var app = (function(object) {
     // Public functions
 
+    object.cache = {};
+
     /**
      * Function to initialize the application.
      */
@@ -35,7 +37,7 @@ var app = (function(object) {
         voiceText.textContent = '';
         $('#voiceInput').modal();
         setTimeout(function() {
-            writeText(voiceText, 'Ich höre . . .');
+            writeText(voiceText, '<- Klick mich wenn du bereit bist.');
         }, 500);
     };
 
@@ -113,7 +115,7 @@ app.setEventListeners = function(){
         var deviceId = $('.device-header').data('id');
 
         $.getJSON(Routing.generate('app_device_control_receiver_route', {'id': deviceId, 'command': command}), function(data) {
-            console.log(data);
+            // TODO: Maybe give feedback.
         });
     });
 
@@ -160,16 +162,66 @@ app.setEventListeners = function(){
 
         return false;
     });
+
+    $body.on('click', '.btn-voice', function() {
+        var voiceText = document.querySelector('.modal-body span');
+
+        var recognition = new webkitSpeechRecognition();
+
+        recognition.onstart = function() {
+            writeText(voiceText, 'Ich höre . . .');
+        };
+
+        recognition.onend = function() {
+            writeText(voiceText, 'Berechne . . .');
+        };
+
+        recognition.onresult = function(event) {
+            recognition.onend = null;
+            var command = event.results[0][0].transcript;
+            $.ajax(
+                {
+                    'url': Routing.generate('app_do_command_route'),
+                    'data': "command=" + command,
+                    'complete': function(data) {
+                        console.log(data);
+                    }
+                }
+            );
+        };
+
+        recognition.start();
+    });
 };
 
-function writeText(node, text, i) {
-    i          = i || 0;
-    var length = text.length;
+function writeText(node, text, cacheTicket, i) {
+    i           = i || 0;
+    var length  = text.length;
+    if (typeof cacheTicket === 'undefined') {
+        cacheTicket = guid();
+        app.cache.writing = cacheTicket;
+    }
+    if (typeof app.cache.writing === 'undefined') {
+        app.cache.writing = cacheTicket;
+    }
+    if (app.cache.writing !== cacheTicket) {
+        return false;
+    }
     setTimeout(function() {
         node.textContent = text.substring(0, i);
         if (i !== length) {
             ++i;
-            writeText(node, text, i);
+            writeText(node, text, cacheTicket, i);
         }
     }, 80 + (Math.random() * 100) + 1);
+}
+
+function guid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
 }

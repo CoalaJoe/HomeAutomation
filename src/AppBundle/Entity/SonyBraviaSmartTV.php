@@ -20,6 +20,8 @@ use AppBundle\DeviceHelper\SmartTV\Navigatable;
 use AppBundle\DeviceHelper\SmartTVInterface;
 use AppBundle\DeviceHelper\StandByChangeable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class SonyBraviaSmartTV
@@ -175,7 +177,15 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
      */
     protected function getBaseCurl(string $url)
     {
+        $cookieFile = __DIR__.'/../AuthCache/sonyBravia'.$this->getId().'.txt';
+        if (!file_exists($cookieFile)) {
+            $handle = fopen($cookieFile, 'w');
+            fclose($handle);
+        }
+
         $curl = parent::getBaseCurl($url);
+        curl_setopt($curl, CURLOPT_COOKIEFILE, $cookieFile);
+        curl_setopt($curl, CURLOPT_COOKIEJAR, $cookieFile);
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT_MS, 2000);
         curl_setopt($curl, CURLOPT_HTTPHEADER, ['SOAPAction: "urn:schemas-sony-com:service:IRCC:1#X_SendIRCC"']);
         curl_setopt($curl, CURLOPT_POST, 1);
@@ -521,10 +531,10 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
      */
     public function getTemplateCommands()
     {
-        $powerToggle = parent::getCommands('AppBundle\Entity\Interfaces\StandByChangeable');
-        $menuButton  = parent::getCommands('AppBundle\Entity\Interfaces\SmartTV\BackToMenu');
-        $navigation  = parent::getCommands('AppBundle\Entity\Interfaces\SmartTV\Navigatable');
-        $volume      = parent::getCommands('AppBundle\Entity\Interfaces\Audio\VolumeChangeable');
+        $powerToggle = parent::getCommands('AppBundle\DeviceHelper\StandByChangeable');
+        $menuButton  = parent::getCommands('AppBundle\DeviceHelper\SmartTV\BackToMenu');
+        $navigation  = parent::getCommands('AppBundle\DeviceHelper\SmartTV\Navigatable');
+        $volume      = parent::getCommands('AppBundle\DeviceHelper\Audio\VolumeChangeable');
 
         return $powerToggle + $menuButton + $navigation + $volume + $this->getInputs();
     }

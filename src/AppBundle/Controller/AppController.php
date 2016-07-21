@@ -254,4 +254,14 @@ class AppController extends Controller
 
         return new Response('', 404);
     }
+
+    /**
+     * @Route("/api/voice", name="app_do_command_route", options={"expose": true})
+     */
+    public function doVoiceCommandAction(Request $request)
+    {
+        $command = $request->query->get('command');
+
+        return new Response("Kommt an!");
+    }
 }
