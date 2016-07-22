@@ -62,9 +62,9 @@ class CommandMapper
                     }
                 }
 
-                return "Fernseher wird ".$action."gemacht.";
+                return "Fernseher wird ".$action." gemacht.";
             default:
-                return "Befehl wurde nicht gefunden.";
+                return "Diesen Befehl kenne ich nicht.";
         }
     }
 
