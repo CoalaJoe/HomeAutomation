@@ -38,6 +38,7 @@ class CommandMapper
     public function mapCommand(string $string)
     {
         $filteredText = $this->filterStopWords($string);
+        var_dump($filteredText);
         switch ($filteredText) {
             case $this->matchesCommand($filteredText, ['Fernseher'], ['nicht'], ['an', 'ein', 'anschalten', 'einschalten']):
                 $action = 'ein';
@@ -122,15 +123,16 @@ class CommandMapper
 
     private function matchesCommand($array, $must = [], $donts = ['nicht'], $or = [])
     {
+        $searchArray = array_map('strtolower', $array);
         foreach ($must as $m) {
-            if (!in_array(strtolower($m), strtolower($array))) {
+            if (!in_array(strtolower($m), $searchArray)) {
 
                 return false;
             }
         }
 
         foreach ($donts as $d) {
-            if (in_array(strtolower($d), strtolower($array))) {
+            if (in_array(strtolower($d), $searchArray)) {
 
                 return false;
             }
@@ -139,7 +141,7 @@ class CommandMapper
         if (count($or) !== 0) {
             $orCount = 0;
             foreach ($or as $o) {
-                if (in_array(strtolower($o), strtolower($array))) {
+                if (in_array(strtolower($o), $searchArray)) {
                     ++$orCount;
                 }
             }
