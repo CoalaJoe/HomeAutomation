@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1807a7c9-4a1b-4c43-a7ed-7177490bf376" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Resources/public/js/app.js" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/public/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Services/NLP/CommandMapper.php" afterPath="$PROJECT_DIR$/src/AppBundle/Services/NLP/CommandMapper.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Entity/SonyBraviaSmartTV.php" afterPath="$PROJECT_DIR$/src/AppBundle/Entity/SonyBraviaSmartTV.php" />
     </list>
     <ignored path="HomeAutomation.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -23,11 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SonyBraviaSmartTV.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SonyBraviaSmartTV.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/SonyBraviaSmartTV.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="185" column="24" selection-start-line="185" selection-start-column="24" selection-end-line="185" selection-end-column="24" />
+            <state relative-caret-position="246">
+              <caret line="370" column="8" selection-start-line="370" selection-start-column="8" selection-end-line="370" selection-end-column="8" />
               <folding>
                 <element signature="e#182#223#0#PHP" expanded="true" />
               </folding>
@@ -97,7 +96,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/AppBundle/Resources/public/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="256">
@@ -161,11 +160,11 @@
         <option value="$PROJECT_DIR$/app/config/services.yml" />
         <option value="$PROJECT_DIR$/src/AppBundle/Controller/AppController.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/DeviceHelper/StandByChangeable.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Entity/SonyBraviaSmartTV.php" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/AppBundle/Services/NLP/data/stopwords-de.txt" />
         <option value="$PROJECT_DIR$/src/AppBundle/Services/NLP/CommandMapper.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/Resources/public/js/app.js" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Entity/SonyBraviaSmartTV.php" />
       </list>
     </option>
   </component>
@@ -925,16 +924,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/SonyBraviaSmartTV.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="185" column="24" selection-start-line="185" selection-start-column="24" selection-end-line="185" selection-end-column="24" />
-          <folding>
-            <element signature="e#182#223#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AppBundle/Services/NLP/data/stopwords-de.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="293">
@@ -969,6 +958,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Resources/public/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="186" column="51" selection-start-line="186" selection-start-column="51" selection-end-line="186" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/AppBundle/AuthCache/.gitkeep">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -977,11 +974,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Resources/public/js/app.js">
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/SonyBraviaSmartTV.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="186" column="51" selection-start-line="186" selection-start-column="51" selection-end-line="186" selection-end-column="51" />
-          <folding />
+        <state relative-caret-position="246">
+          <caret line="370" column="8" selection-start-line="370" selection-start-column="8" selection-end-line="370" selection-end-column="8" />
+          <folding>
+            <element signature="e#182#223#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
