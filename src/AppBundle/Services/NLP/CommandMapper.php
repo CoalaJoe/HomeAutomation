@@ -36,10 +36,10 @@ class CommandMapper
 
     public function mapCommand(string $string)
     {
-        $filteredText = $this->filterStopwords($string);
-        var_dump($filteredText);
+        $filteredText = $this->filterStopWords($string);
         switch ($filteredText) {
             case $this->matchesCommand(['Fernseher', 'an'], ['nicht'], $filteredText):
+            case $this->matchesCommand(['Fernseher', 'ein'], ['nicht'], $filteredText):
                 $action = 'an';
             case $this->matchesCommand(['Fernseher', 'aus'], ['nicht'], $filteredText):
                 $action = $action ?? 'aus';
@@ -52,10 +52,8 @@ class CommandMapper
                     }
                     if (count($tvs) === 1) {
                         /** @var SmartTVInterface|StandByChangeable $tv */
-                        $tv = $tvs[0];
+                        $tv = $tvs[0]; // TODO: Get all matching Devices. Get status. If action "an" and none is on throw error message.
                         $status = $tv->getPowerStatus();
-                        var_dump($status);
-                        var_dump($action);
                         if (($status === StandByChangeable::STATUS_OFF && $action === 'aus') || ($status === StandByChangeable::STATUS_ON && $action === 'an')) {
                             return "Das ist bereits der aktuelle Zustand";
                         } else {
@@ -70,7 +68,7 @@ class CommandMapper
         }
     }
 
-    private function filterStopwords(string $text)
+    private function filterStopWords(string $text)
     {
         $text = str_replace('.', '', $text);
         $textArr = explode(' ', $text);

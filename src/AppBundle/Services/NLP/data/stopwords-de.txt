@@ -64,7 +64,6 @@ doch
 dort
 du
 durch
-ein
 eine
 einem
 einen
@@ -156,8 +155,6 @@ mit
 muss
 musste
 nach
-nicht
-nichts
 noch
 nun
 nur
