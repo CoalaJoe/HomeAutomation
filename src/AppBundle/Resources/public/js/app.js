@@ -184,8 +184,8 @@ app.setEventListeners = function(){
                     'url': Routing.generate('app_do_command_route'),
                     'data': "command=" + command,
                     'complete': function(data) {
-                        writeText(voiceText, answer);
                         var answer = data.responseText;
+                        writeText(voiceText, answer);
                         var speaker = new SpeechSynthesisUtterance(answer);
                         speaker.lang = "de-DE";
                         window.speechSynthesis.speak(speaker);
