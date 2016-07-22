@@ -66,7 +66,7 @@ class CommandMapper
             case $this->matchesCommand($filteredText, ['Fernseher', 'leiser']):
                 $action = "leiser";
             case $this->matchesCommand($filteredText, ['Fernseher', 'lauter']):
-                $action = "lauter";
+                $action = $aciton ?? "lauter";
                 $devices = $this->user->getSettings()->getRoom()->getDevices();
                 $tvs = [];
                 foreach ($devices as $device) {
