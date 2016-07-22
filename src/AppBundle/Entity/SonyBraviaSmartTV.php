@@ -31,90 +31,90 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChangeable, ChannelChangeable, Authorizable, VolumeChangeable, Mutable, Navigatable, Enterable, BackToMenu, SubtitleChangeable, GoBackable
 {
-    const COMMAND_POWER_OFF                  = 'AAAAAQAAAAEAAAAvAw==';
-    const COMMAND_POWER_ON                   = 'AAAAAQAAAAEAAAAuAw==';
-    const COMMAND_VOLUME_DOWN                = 'AAAAAQAAAAEAAAATAw==';
-    const COMMAND_VOLUME_UP                  = 'AAAAAQAAAAEAAAASAw==';
-    const COMMAND_MUTE_TOGGLE                = 'AAAAAQAAAAEAAAAUAw==';
-    const COMMAND_CHANNEL_DOWN               = 'AAAAAQAAAAEAAAARAw==';
-    const COMMAND_CHANNEL_UP                 = 'AAAAAQAAAAEAAAAQAw==';
-    const COMMAND_CHANNEL_PREVIOUS           = 'AAAAAQAAAAEAAAA7Aw==';
-    const COMMAND_CURSOR_DOWN                = 'AAAAAQAAAAEAAAB1Aw==';
-    const COMMAND_CURSOR_UP                  = 'AAAAAQAAAAEAAAB0Aw==';
-    const COMMAND_CURSOR_RIGHT               = 'AAAAAQAAAAEAAAAzAw==';
-    const COMMAND_CURSOR_LEFT                = 'AAAAAQAAAAEAAAA0Aw==';
-    const COMMAND_CURSOR_ENTER               = 'AAAAAQAAAAEAAABlAw==';
-    const COMMAND_HOME_MENU                  = 'AAAAAQAAAAEAAABgAw==';
-    const COMMAND_EXIT                       = 'AAAAAQAAAAEAAABjAw==';
-    const COMMAND_RETURN                     = 'AAAAAgAAAJcAAAAjAw==';
-    const COMMAND_DISPLAY                    = 'AAAAAQAAAAEAAAA6Aw==';
-    const COMMAND_GUIDE                      = 'AAAAAgAAAKQAAABbAw==';
-    const COMMAND_NUM_ZERO                   = 'AAAAAQAAAAEAAAAJAw==';
-    const COMMAND_NUM_ONE                    = 'AAAAAQAAAAEAAAAAAw==';
-    const COMMAND_NUM_TWO                    = 'AAAAAQAAAAEAAAABAw==';
-    const COMMAND_NUM_THREE                  = 'AAAAAQAAAAEAAAACAw==';
-    const COMMAND_NUM_FOUR                   = 'AAAAAQAAAAEAAAADAw==';
-    const COMMAND_NUM_FIVE                   = 'AAAAAQAAAAEAAAAEAw==';
-    const COMMAND_NUM_SIX                    = 'AAAAAQAAAAEAAAAFAw==';
-    const COMMAND_NUM_SEVEN                  = 'AAAAAQAAAAEAAAAGAw==';
-    const COMMAND_NUM_EIGHT                  = 'AAAAAQAAAAEAAAAHAw==';
-    const COMMAND_NUM_NINE                   = 'AAAAAQAAAAEAAAAIAw==';
-    const COMMAND_NUM_TEN                    = 'AAAAAgAAAJcAAAAMAw==';
-    const COMMAND_DIGIT_SEPARATOR            = 'AAAAAgAAAJcAAAAdAw==';
-    const COMMAND_MENU_POPUP                 = 'AAAAAgAAABoAAABhAw==';
-    const COMMAND_FUNCTION_RED               = 'AAAAAgAAAJcAAAAlAw==';
-    const COMMAND_FUNCTION_YELLOW            = 'AAAAAgAAAJcAAAAnAw==';
-    const COMMAND_FUNCTION_GREEN             = 'AAAAAgAAAJcAAAAmAw==';
-    const COMMAND_FUNCTION_BLUE              = 'AAAAAgAAAJcAAAAkAw==';
-    const COMMAND_3D                         = 'AAAAAgAAAHcAAABNAw==';
-    const COMMAND_SUBTITLE_ON                = 'AAAAAgAAAJcAAAAoAw==';
-    const COMMAND_SUBTITLE_OFF               = 'AAAAAgAAAKQAAAAQAw==';
-    const COMMAND_HELP                       = 'AAAAAgAAABoAAAB7Aw=='; // TODO: test
-    const COMMAND_SYNC_MENU                  = 'AAAAAgAAABoAAABYAw==';
-    const COMMAND_OPTIONS                    = 'AAAAAgAAAJcAAAA2Aw==';
-    const COMMAND_INPUT_TOGGLE               = 'AAAAAQAAAAEAAAAlAw==';
-    const COMMAND_WIDE                       = 'AAAAAgAAAKQAAAA9Aw==';
+    const COMMAND_POWER_OFF = 'AAAAAQAAAAEAAAAvAw==';
+    const COMMAND_POWER_ON = 'AAAAAQAAAAEAAAAuAw==';
+    const COMMAND_VOLUME_DOWN = 'AAAAAQAAAAEAAAATAw==';
+    const COMMAND_VOLUME_UP = 'AAAAAQAAAAEAAAASAw==';
+    const COMMAND_MUTE_TOGGLE = 'AAAAAQAAAAEAAAAUAw==';
+    const COMMAND_CHANNEL_DOWN = 'AAAAAQAAAAEAAAARAw==';
+    const COMMAND_CHANNEL_UP = 'AAAAAQAAAAEAAAAQAw==';
+    const COMMAND_CHANNEL_PREVIOUS = 'AAAAAQAAAAEAAAA7Aw==';
+    const COMMAND_CURSOR_DOWN = 'AAAAAQAAAAEAAAB1Aw==';
+    const COMMAND_CURSOR_UP = 'AAAAAQAAAAEAAAB0Aw==';
+    const COMMAND_CURSOR_RIGHT = 'AAAAAQAAAAEAAAAzAw==';
+    const COMMAND_CURSOR_LEFT = 'AAAAAQAAAAEAAAA0Aw==';
+    const COMMAND_CURSOR_ENTER = 'AAAAAQAAAAEAAABlAw==';
+    const COMMAND_HOME_MENU = 'AAAAAQAAAAEAAABgAw==';
+    const COMMAND_EXIT = 'AAAAAQAAAAEAAABjAw==';
+    const COMMAND_RETURN = 'AAAAAgAAAJcAAAAjAw==';
+    const COMMAND_DISPLAY = 'AAAAAQAAAAEAAAA6Aw==';
+    const COMMAND_GUIDE = 'AAAAAgAAAKQAAABbAw==';
+    const COMMAND_NUM_ZERO = 'AAAAAQAAAAEAAAAJAw==';
+    const COMMAND_NUM_ONE = 'AAAAAQAAAAEAAAAAAw==';
+    const COMMAND_NUM_TWO = 'AAAAAQAAAAEAAAABAw==';
+    const COMMAND_NUM_THREE = 'AAAAAQAAAAEAAAACAw==';
+    const COMMAND_NUM_FOUR = 'AAAAAQAAAAEAAAADAw==';
+    const COMMAND_NUM_FIVE = 'AAAAAQAAAAEAAAAEAw==';
+    const COMMAND_NUM_SIX = 'AAAAAQAAAAEAAAAFAw==';
+    const COMMAND_NUM_SEVEN = 'AAAAAQAAAAEAAAAGAw==';
+    const COMMAND_NUM_EIGHT = 'AAAAAQAAAAEAAAAHAw==';
+    const COMMAND_NUM_NINE = 'AAAAAQAAAAEAAAAIAw==';
+    const COMMAND_NUM_TEN = 'AAAAAgAAAJcAAAAMAw==';
+    const COMMAND_DIGIT_SEPARATOR = 'AAAAAgAAAJcAAAAdAw==';
+    const COMMAND_MENU_POPUP = 'AAAAAgAAABoAAABhAw==';
+    const COMMAND_FUNCTION_RED = 'AAAAAgAAAJcAAAAlAw==';
+    const COMMAND_FUNCTION_YELLOW = 'AAAAAgAAAJcAAAAnAw==';
+    const COMMAND_FUNCTION_GREEN = 'AAAAAgAAAJcAAAAmAw==';
+    const COMMAND_FUNCTION_BLUE = 'AAAAAgAAAJcAAAAkAw==';
+    const COMMAND_3D = 'AAAAAgAAAHcAAABNAw==';
+    const COMMAND_SUBTITLE_ON = 'AAAAAgAAAJcAAAAoAw==';
+    const COMMAND_SUBTITLE_OFF = 'AAAAAgAAAKQAAAAQAw==';
+    const COMMAND_HELP = 'AAAAAgAAABoAAAB7Aw=='; // TODO: test
+    const COMMAND_SYNC_MENU = 'AAAAAgAAABoAAABYAw==';
+    const COMMAND_OPTIONS = 'AAAAAgAAAJcAAAA2Aw==';
+    const COMMAND_INPUT_TOGGLE = 'AAAAAQAAAAEAAAAlAw==';
+    const COMMAND_WIDE = 'AAAAAgAAAKQAAAA9Aw==';
     const COMMAND_SONY_ENTERTAINMENT_NETWORK = 'AAAAAgAAABoAAAB9Aw==';
-    const COMMAND_MEDIA_PAUSE                = 'AAAAAgAAAJcAAAAZAw==';
-    const COMMAND_MEDIA_PLAY                 = 'AAAAAgAAAJcAAAAaAw==';
-    const COMMAND_MEDIA_STOP                 = 'AAAAAgAAAJcAAAAYAw==';
-    const COMMAND_MEDIA_FORWARD              = 'AAAAAgAAAJcAAAAcAw==';
-    const COMMAND_MEDIA_REVERSE              = 'AAAAAgAAAJcAAAAbAw==';
-    const COMMAND_MEDIA_PREVIOUS             = 'AAAAAgAAAJcAAAA8Aw==';
-    const COMMAND_MEDIA_NEXT                 = 'AAAAAgAAAJcAAAA9Aw==';
-    const COMMAND_ANALOG                     = 'AAAAAgAAAHcAAAANAw==';
-    const COMMAND_DIGITAL                    = 'AAAAAgAAAJcAAAAyAw==';
-    const COMMAND_AUDIO                      = 'AAAAAQAAAAEAAAAXAw=='; // TODO: test
-    const COMMAND_PICTURE_AND_PICTURE        = 'AAAAAgAAAKQAAAB3Aw==';
-    const COMMAND_INPUT_HDMI1                = 'AAAAAgAAABoAAABaAw==';
-    const COMMAND_INPUT_HDMI2                = 'AAAAAgAAABoAAABbAw==';
-    const COMMAND_INPUT_HDMI3                = 'AAAAAgAAABoAAABcAw==';
-    const COMMAND_INPUT_HDMI4                = 'AAAAAgAAABoAAABdAw==';
-    const COMMAND_NETFLIX                    = 'AAAAAgAAABoAAAB8Aw==';
+    const COMMAND_MEDIA_PAUSE = 'AAAAAgAAAJcAAAAZAw==';
+    const COMMAND_MEDIA_PLAY = 'AAAAAgAAAJcAAAAaAw==';
+    const COMMAND_MEDIA_STOP = 'AAAAAgAAAJcAAAAYAw==';
+    const COMMAND_MEDIA_FORWARD = 'AAAAAgAAAJcAAAAcAw==';
+    const COMMAND_MEDIA_REVERSE = 'AAAAAgAAAJcAAAAbAw==';
+    const COMMAND_MEDIA_PREVIOUS = 'AAAAAgAAAJcAAAA8Aw==';
+    const COMMAND_MEDIA_NEXT = 'AAAAAgAAAJcAAAA9Aw==';
+    const COMMAND_ANALOG = 'AAAAAgAAAHcAAAANAw==';
+    const COMMAND_DIGITAL = 'AAAAAgAAAJcAAAAyAw==';
+    const COMMAND_AUDIO = 'AAAAAQAAAAEAAAAXAw=='; // TODO: test
+    const COMMAND_PICTURE_AND_PICTURE = 'AAAAAgAAAKQAAAB3Aw==';
+    const COMMAND_INPUT_HDMI1 = 'AAAAAgAAABoAAABaAw==';
+    const COMMAND_INPUT_HDMI2 = 'AAAAAgAAABoAAABbAw==';
+    const COMMAND_INPUT_HDMI3 = 'AAAAAgAAABoAAABcAw==';
+    const COMMAND_INPUT_HDMI4 = 'AAAAAgAAABoAAABdAw==';
+    const COMMAND_NETFLIX = 'AAAAAgAAABoAAAB8Aw==';
 
     // NOT TESTED
-    const COMMAND_ADVANCE             = 'AAAAAgAAAJcAAAB4Aw==';
-    const COMMAND_TOP_MENU            = 'AAAAAgAAABoAAABgAw==';
-    const COMMAND_TELETEXT            = 'AAAAAQAAAAEAAAA/Aw==';
-    const COMMAND_GGUIDE              = 'AAAAAQAAAAEAAAAOAw==';
-    const COMMAND_BS                  = 'AAAAAgAAAJcAAAAsAw==';
-    const COMMAND_CS                  = 'AAAAAgAAAJcAAAArAw==';
-    const COMMAND_CSBS                = 'AAAAAgAAAJcAAAAQAw==';
-    const COMMAND_DDATA               = 'AAAAAgAAAJcAAAAVAw==';
-    const COMMAND_INTERNET_WIDGETS    = 'AAAAAgAAABoAAAB6Aw==';
-    const COMMAND_INTERNET_VIDEO      = 'AAAAAgAAABoAAAB5Aw==';
-    const COMMAND_SCENE_SELECT        = 'AAAAAgAAABoAAAB4Aw==';
-    const COMMAND_MY_EPG              = 'AAAAAgAAAHcAAABrAw==';
+    const COMMAND_ADVANCE = 'AAAAAgAAAJcAAAB4Aw==';
+    const COMMAND_TOP_MENU = 'AAAAAgAAABoAAABgAw==';
+    const COMMAND_TELETEXT = 'AAAAAQAAAAEAAAA/Aw==';
+    const COMMAND_GGUIDE = 'AAAAAQAAAAEAAAAOAw==';
+    const COMMAND_BS = 'AAAAAgAAAJcAAAAsAw==';
+    const COMMAND_CS = 'AAAAAgAAAJcAAAArAw==';
+    const COMMAND_CSBS = 'AAAAAgAAAJcAAAAQAw==';
+    const COMMAND_DDATA = 'AAAAAgAAAJcAAAAVAw==';
+    const COMMAND_INTERNET_WIDGETS = 'AAAAAgAAABoAAAB6Aw==';
+    const COMMAND_INTERNET_VIDEO = 'AAAAAgAAABoAAAB5Aw==';
+    const COMMAND_SCENE_SELECT = 'AAAAAgAAABoAAAB4Aw==';
+    const COMMAND_MY_EPG = 'AAAAAgAAAHcAAABrAw==';
     const COMMAND_PROGRAM_DESCRIPTION = 'AAAAAgAAAJcAAAAWAw==';
-    const COMMAND_WRITE_CHAPTER       = 'AAAAAgAAAHcAAABsAw==';
-    const COMMAND_TRACK_ID            = 'AAAAAgAAABoAAAB+Aw==';
-    const COMMAND_APPLI_CAST          = 'AAAAAgAAABoAAABvAw==';
-    const COMMAND_DELETE_VIDEO        = 'AAAAAgAAAHcAAAAfAw==';
-    const COMMAND_EASY_STARTUP        = 'AAAAAgAAAHcAAABqAw==';
-    const COMMAND_ONE_TOUCH_TIME_REC  = 'AAAAAgAAABoAAABkAw==';
-    const COMMAND_ONE_TOUCH_VIEW      = 'AAAAAgAAABoAAABlAw==';
-    const COMMAND_ONE_TOUCH_REC       = 'AAAAAgAAABoAAABiAw==';
-    const COMMAND_ONE_TOUCH_REC_STOP  = 'AAAAAgAAABoAAABjAw==';
+    const COMMAND_WRITE_CHAPTER = 'AAAAAgAAAHcAAABsAw==';
+    const COMMAND_TRACK_ID = 'AAAAAgAAABoAAAB+Aw==';
+    const COMMAND_APPLI_CAST = 'AAAAAgAAABoAAABvAw==';
+    const COMMAND_DELETE_VIDEO = 'AAAAAgAAAHcAAAAfAw==';
+    const COMMAND_EASY_STARTUP = 'AAAAAgAAAHcAAABqAw==';
+    const COMMAND_ONE_TOUCH_TIME_REC = 'AAAAAgAAABoAAABkAw==';
+    const COMMAND_ONE_TOUCH_VIEW = 'AAAAAgAAABoAAABlAw==';
+    const COMMAND_ONE_TOUCH_REC = 'AAAAAgAAABoAAABiAw==';
+    const COMMAND_ONE_TOUCH_REC_STOP = 'AAAAAgAAABoAAABjAw==';
 
     /**
      * SonyBraviaSmartTV constructor.
@@ -151,7 +151,7 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
             'HDMI 2'  => ['settings_input_hdmi' => 'commandHDMI2'],
             'HDMI 3'  => ['settings_input_hdmi' => 'commandHDMI3'],
             'HDMI 4'  => ['settings_input_hdmi' => 'commandHDMI4'],
-            'Digital' => ['settings_input_hdmi' => 'commandDigital']
+            'Digital' => ['settings_input_hdmi' => 'commandDigital'],
         ];
     }
 
@@ -244,7 +244,9 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
     public function requestAccess()
     {
         $curl = $this->getBaseCurl($this->getIp().'/sony/accessControl');
-        curl_setopt($curl, CURLOPT_POSTFIELDS,
+        curl_setopt(
+            $curl,
+            CURLOPT_POSTFIELDS,
             '{"id":14,"method":"actRegister","version":"1.0","params":[{"clientid":"HomeAutomation:1","nickname":"HomeAutomation"},[{"clientid":"HomeAutomation:1","value":"yes","nickname":"HomeAutomation","function":"WOL"}]]}'
         );
 
@@ -265,7 +267,9 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
         $curl = $this->getBaseCurl($this->getIp().'/sony/accessControl');
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, ':'.$password);
-        curl_setopt($curl, CURLOPT_POSTFIELDS,
+        curl_setopt(
+            $curl,
+            CURLOPT_POSTFIELDS,
             '{"id":14,"method":"actRegister","version":"1.0","params":[{"clientid":"HomeAutomation:1","nickname":"HomeAutomation"},[{"clientid":"HomeAutomation:1","value":"yes","nickname":"HomeAutomation","function":"WOL"}]]}'
         );
         $result = curl_exec($curl);
@@ -333,21 +337,37 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
         return $result;
     }
 
-    /**
-     * @return mixed
-     */
-    public function commandStandBy()
+    public function getPowerStatus()
     {
         // Get current status.
         $curl = $this->getBaseCurl($this->getIp().'/sony/system');
         curl_setopt($curl, CURLOPT_POSTFIELDS, '{"id":4,"method":"getPowerStatus","version":"1.0","params":[]}');
         $status = $this->getJson($curl);
+
+        if ($status->result[0] && $status->result[0]->status) {
+            if ($status->result[0]->status === 'standby') {
+                $powerStatus = StandByChangeable::STATUS_STANDBY;
+            } else {
+                $powerStatus = StandByChangeable::STATUS_ON;
+            }
+        } else {
+            $powerStatus = StandByChangeable::STATUS_OFF;
+        }
+
+        return $powerStatus;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandStandBy()
+    {
+        $status = $this->getPowerStatus();
+
         $curl = $this->getBaseCurl($this->getBaseUrl());
 
-        $status = ($status->result[0]) ? $status->result[0]->status : 'standby';
-
         // Determine request
-        $command = ($status === 'standby') ? self::COMMAND_POWER_ON : self::COMMAND_POWER_OFF;
+        $command = ($status === StandByChangeable::STATUS_STANDBY || $status === StandByChangeable::STATUS_OFF) ? self::COMMAND_POWER_ON : self::COMMAND_POWER_OFF;
 
         curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest($command));
 
@@ -531,9 +551,9 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
     public function getTemplateCommands()
     {
         $powerToggle = parent::getCommands('AppBundle\DeviceHelper\StandByChangeable');
-        $menuButton  = parent::getCommands('AppBundle\DeviceHelper\SmartTV\BackToMenu');
-        $navigation  = parent::getCommands('AppBundle\DeviceHelper\SmartTV\Navigatable');
-        $volume      = parent::getCommands('AppBundle\DeviceHelper\Audio\VolumeChangeable');
+        $menuButton = parent::getCommands('AppBundle\DeviceHelper\SmartTV\BackToMenu');
+        $navigation = parent::getCommands('AppBundle\DeviceHelper\SmartTV\Navigatable');
+        $volume = parent::getCommands('AppBundle\DeviceHelper\Audio\VolumeChangeable');
 
         return $powerToggle + $menuButton + $navigation + $volume + $this->getInputs();
     }

@@ -12,6 +12,9 @@ services:
     app_smart_tv_handler:
         class: AppBundle\Services\DeviceHandlers\SmartTVHandler
 
+    app_nlp_command_mapper:
+        class: AppBundle\Services\NLP\CommandMapper
+        arguments: ['@security.token_storage']
 
 
     app_user_created_listener:

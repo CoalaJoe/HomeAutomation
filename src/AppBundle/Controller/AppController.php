@@ -41,7 +41,9 @@ class AppController extends Controller
 
             return $this->redirectToRoute('app_set_room_route');
         }
-        $devices = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Device')->findBy(['room' => $room->getId()]);
+        $devices = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Device')->findBy(
+            ['room' => $room->getId()]
+        );
 
         return $this->render('AppBundle:app:overview.html.twig', ['devices' => $devices]);
     }
@@ -56,7 +58,7 @@ class AppController extends Controller
      */
     public function roomAction(Request $request)
     {
-        $em     = $this->get('doctrine.orm.entity_manager');
+        $em = $this->get('doctrine.orm.entity_manager');
         $levels = $em->getRepository('AppBundle:Level')->findAll();
 
         return $this->render('AppBundle:app:room.html.twig', ['levels' => $levels]);
@@ -80,7 +82,9 @@ class AppController extends Controller
     {
         $em = $this->get('doctrine.orm.entity_manager');
         if ($deviceId) {
-            $device = $em->createQueryBuilder()->select('d')->from('AppBundle:Device', 'd')->where('d.id = :id')->andWhere('d.authorized = 0')->setMaxResults(1)
+            $device = $em->createQueryBuilder()->select('d')->from('AppBundle:Device', 'd')->where(
+                'd.id = :id'
+            )->andWhere('d.authorized = 0')->setMaxResults(1)
                 ->setParameter('id', $deviceId)->getQuery()->getResult();
             if (!$device) {
                 throw new \Exception('Gerät nicht gefunden.');
@@ -88,7 +92,10 @@ class AppController extends Controller
 
             // continue authentication
 
-            return $this->render('AppBundle:app:authenticateDevice.html.twig', ['device' => $device[0], 'action' => 'enterPassword']);
+            return $this->render(
+                'AppBundle:app:authenticateDevice.html.twig',
+                ['device' => $device[0], 'action' => 'enterPassword']
+            );
         }
 
         $devices = $em->getRepository('AppBundle:Device')->findBy(['authorized' => false]);
@@ -107,7 +114,7 @@ class AppController extends Controller
     public function authenticateDeviceFormAction(Request $request)
     {
         $values = $request->request;
-        $em     = $this->get('doctrine.orm.entity_manager');
+        $em = $this->get('doctrine.orm.entity_manager');
         if ($values->get('submit')) {
             switch ($values->get('action')) {
                 case 'chooseDevice':
@@ -116,7 +123,10 @@ class AppController extends Controller
                         if ($device instanceof Authorizable) {
                             $device->requestAccess();
 
-                            return $this->redirectToRoute('app_authenticate_device_route', ['deviceId' => $device->getId()]);
+                            return $this->redirectToRoute(
+                                'app_authenticate_device_route',
+                                ['deviceId' => $device->getId()]
+                            );
                         }
                     }
 
@@ -218,7 +228,9 @@ class AppController extends Controller
     public function getRoomsAction(Request $request, $level)
     {
         if ($request->isXmlHttpRequest()) {
-            $rooms = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Room')->findBy(['level' => $level]);
+            $rooms = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Room')->findBy(
+                ['level' => $level]
+            );
             if ($rooms) {
 
                 return new JsonResponse(json_encode($rooms));
@@ -242,7 +254,7 @@ class AppController extends Controller
         if ($values->get('room')) {
             /** @var User $user */
             $user = $this->getUser();
-            $em   = $this->get('doctrine.orm.entity_manager');
+            $em = $this->get('doctrine.orm.entity_manager');
             if ($room = $em->getRepository('AppBundle:Room')->find($values->get('room'))) {
                 $user->getSettings()->setRoom($room);
                 $em->persist($user->getSettings());
@@ -261,7 +273,9 @@ class AppController extends Controller
     public function doVoiceCommandAction(Request $request)
     {
         $command = $request->query->get('command');
-
-        return new Response("Kommt an!");
+        $commandMapper = $this->get('app_nlp_command_mapper');
+        $result = $commandMapper->mapCommand($command);
+        
+        return new Response($result);
     }
 }
