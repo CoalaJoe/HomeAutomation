@@ -217,7 +217,7 @@ function writeText(node, text, cacheTicket, i) {
             ++i;
             writeText(node, text, cacheTicket, i);
         }
-    }, 80 + (Math.random() * 100) + 1);
+    }, 30 + (Math.random() * 50) + 1);
 }
 
 function guid() {

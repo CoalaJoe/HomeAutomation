@@ -9,6 +9,7 @@
 namespace AppBundle\Services\NLP;
 
 
+use AppBundle\DeviceHelper\Audio\VolumeChangeable;
 use AppBundle\DeviceHelper\SmartTVInterface;
 use AppBundle\DeviceHelper\StandByChangeable;
 use AppBundle\Entity\Device;
@@ -38,10 +39,9 @@ class CommandMapper
     {
         $filteredText = $this->filterStopWords($string);
         switch ($filteredText) {
-            case $this->matchesCommand(['Fernseher', 'an'], ['nicht'], $filteredText):
-            case $this->matchesCommand(['Fernseher', 'ein'], ['nicht'], $filteredText):
+            case $this->matchesCommand($filteredText, ['Fernseher'], ['nicht'], ['an', 'ein', 'anschalten', 'einschalten']):
                 $action = 'ein';
-            case $this->matchesCommand(['Fernseher', 'aus'], ['nicht'], $filteredText):
+            case $this->matchesCommand($filteredText, ['Fernseher'], ['nicht'], ['aus', 'ausschalten']):
                 $action = $action ?? 'aus';
                 $devices = $this->user->getSettings()->getRoom()->getDevices();
                 $tvs = [];
@@ -50,19 +50,50 @@ class CommandMapper
                     if ($device instanceof SmartTVInterface && $device instanceof StandByChangeable) {
                         $tvs[] = $device;
                     }
-                    if (count($tvs) === 1) {
-                        /** @var SmartTVInterface|StandByChangeable $tv */
-                        $tv = $tvs[0]; // TODO: Get all matching Devices. Get status. If action "an" and none is on throw error message.
-                        $status = $tv->getPowerStatus();
-                        if (($status === StandByChangeable::STATUS_OFF && $action === 'aus') || ($status === StandByChangeable::STATUS_ON && $action === 'ein')) {
-                            return "Das ist bereits der aktuelle Zustand";
-                        } else {
-                            $tv->commandStandBy();
-                        }
+                }
+                if (count($tvs) !== 0) {
+                    /** @var SmartTVInterface|StandByChangeable $tv */
+                    $tv = $tvs[0]; // TODO: Get all matching Devices. Get status. If action "an" and none is on throw error message.
+                    $status = $tv->getPowerStatus();
+                    if (($status === StandByChangeable::STATUS_OFF && $action === 'aus') || ($status === StandByChangeable::STATUS_ON && $action === 'ein')) {
+                        return "Das ist bereits der aktuelle Zustand.";
+                    } else {
+                        $tv->commandStandBy();
                     }
                 }
 
                 return "Fernseher wird ".$action."geschalten.";
+            case $this->matchesCommand($filteredText, ['Fernseher', 'lauter']):
+                $devices = $this->user->getSettings()->getRoom()->getDevices();
+                $tvs = [];
+                foreach ($devices as $device) {
+                    /** @var Device $device */
+                    if ($device instanceof SmartTVInterface && $device instanceof StandByChangeable) {
+                        $tvs[] = $device;
+                    }
+                }
+                if (count($tvs) !== 0) {
+                    /** @var SmartTVInterface|StandByChangeable|VolumeChangeable $tv */
+                    $tv = $tvs[0]; // TODO: Get all matching Devices. Get status. If action "an" and none is on throw error message.
+                    $status = $tv->getPowerStatus();
+
+                    if ($tv instanceof StandByChangeable && $status === StandByChangeable::STATUS_OFF) {
+                        return "Aber der Fernseher ist aus.";
+                    } else {
+                        $amount = 2;
+                        foreach ($filteredText as $text) {
+                            if (is_numeric($text)) {
+                                $amount = (int)$text;
+                            }
+                        }
+                        for ($i = 0; $i < $amount; ++$i) {
+                            $tv->commandVolumeUp();
+                        }
+                    }
+
+                    return "Ich habe Ihn für dich lauter gestellt.";
+                }
+
             default:
                 return "Diesen Befehl kenne ich nicht.";
         }
@@ -82,7 +113,7 @@ class CommandMapper
         return $filtered;
     }
 
-    private function matchesCommand($must = [], $donts = [], $array)
+    private function matchesCommand($array, $must = [], $donts = ['nicht'], $or = [])
     {
         foreach ($must as $m) {
             if (!in_array($m, $array)) {
@@ -96,6 +127,16 @@ class CommandMapper
 
                 return false;
             }
+        }
+
+        if (count($or) !== 0) {
+            $orCount = 0;
+            foreach ($or as $o) {
+                if (in_array($o, $array)) {
+                    ++$orCount;
+                }
+            }
+            if ($orCount === 0) { return false; }
         }
 
         return true;
