@@ -123,14 +123,14 @@ class CommandMapper
     private function matchesCommand($array, $must = [], $donts = ['nicht'], $or = [])
     {
         foreach ($must as $m) {
-            if (!in_array($m, $array)) {
+            if (!in_array(strtolower($m), strtolower($array))) {
 
                 return false;
             }
         }
 
         foreach ($donts as $d) {
-            if (in_array($d, $array)) {
+            if (in_array(strtolower($d), strtolower($array))) {
 
                 return false;
             }
@@ -139,7 +139,7 @@ class CommandMapper
         if (count($or) !== 0) {
             $orCount = 0;
             foreach ($or as $o) {
-                if (in_array($o, $array)) {
+                if (in_array(strtolower($o), strtolower($array))) {
                     ++$orCount;
                 }
             }
