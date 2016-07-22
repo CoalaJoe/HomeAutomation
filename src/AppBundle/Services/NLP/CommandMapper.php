@@ -40,7 +40,7 @@ class CommandMapper
         switch ($filteredText) {
             case $this->matchesCommand(['Fernseher', 'an'], ['nicht'], $filteredText):
             case $this->matchesCommand(['Fernseher', 'ein'], ['nicht'], $filteredText):
-                $action = 'an';
+                $action = 'ein';
             case $this->matchesCommand(['Fernseher', 'aus'], ['nicht'], $filteredText):
                 $action = $action ?? 'aus';
                 $devices = $this->user->getSettings()->getRoom()->getDevices();
@@ -54,7 +54,7 @@ class CommandMapper
                         /** @var SmartTVInterface|StandByChangeable $tv */
                         $tv = $tvs[0]; // TODO: Get all matching Devices. Get status. If action "an" and none is on throw error message.
                         $status = $tv->getPowerStatus();
-                        if (($status === StandByChangeable::STATUS_OFF && $action === 'aus') || ($status === StandByChangeable::STATUS_ON && $action === 'an')) {
+                        if (($status === StandByChangeable::STATUS_OFF && $action === 'aus') || ($status === StandByChangeable::STATUS_ON && $action === 'ein')) {
                             return "Das ist bereits der aktuelle Zustand";
                         } else {
                             $tv->commandStandBy();
@@ -62,7 +62,7 @@ class CommandMapper
                     }
                 }
 
-                return "Fernseher wird ".$action." gemacht.";
+                return "Fernseher wird ".$action."geschalten.";
             default:
                 return "Diesen Befehl kenne ich nicht.";
         }
