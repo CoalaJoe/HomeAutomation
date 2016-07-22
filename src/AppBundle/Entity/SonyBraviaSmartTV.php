@@ -369,6 +369,8 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
         // Determine request
         $command = ($status === StandByChangeable::STATUS_STANDBY || $status === StandByChangeable::STATUS_OFF) ? self::COMMAND_POWER_ON : self::COMMAND_POWER_OFF;
 
+        var_dump($command);
+
         curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest($command));
 
         $result = curl_exec($curl);
