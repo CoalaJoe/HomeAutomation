@@ -63,7 +63,10 @@ class CommandMapper
                 }
 
                 return "Fernseher wird ".$action."geschalten.";
+            case $this->matchesCommand($filteredText, ['Fernseher', 'leiser']):
+                $action = "leiser";
             case $this->matchesCommand($filteredText, ['Fernseher', 'lauter']):
+                $action = "lauter";
                 $devices = $this->user->getSettings()->getRoom()->getDevices();
                 $tvs = [];
                 foreach ($devices as $device) {
@@ -87,7 +90,11 @@ class CommandMapper
                             }
                         }
                         for ($i = 0; $i < $amount; ++$i) {
-                            $tv->commandVolumeUp();
+                            if ($action === 'lauter') {
+                                $tv->commandVolumeUp();
+                            } else {
+                                $tv->commandVolumeDown();
+                            }
                         }
                     }
 

@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1807a7c9-4a1b-4c43-a7ed-7177490bf376" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Resources/public/js/app.js" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/public/js/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Services/NLP/CommandMapper.php" afterPath="$PROJECT_DIR$/src/AppBundle/Services/NLP/CommandMapper.php" />
     </list>
     <ignored path="HomeAutomation.iws" />
@@ -49,8 +47,8 @@
       <file leaf-file-name="CommandMapper.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/AppBundle/Services/NLP/CommandMapper.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="526">
-              <caret line="131" column="24" selection-start-line="131" selection-start-column="24" selection-end-line="131" selection-end-column="24" />
+            <state relative-caret-position="661">
+              <caret line="95" column="56" selection-start-line="95" selection-start-column="56" selection-end-line="95" selection-end-column="56" />
               <folding>
                 <element signature="e#176#226#0#PHP" expanded="true" />
               </folding>
@@ -1062,8 +1060,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AppBundle/Services/NLP/CommandMapper.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="526">
-          <caret line="131" column="24" selection-start-line="131" selection-start-column="24" selection-end-line="131" selection-end-column="24" />
+        <state relative-caret-position="661">
+          <caret line="95" column="56" selection-start-line="95" selection-start-column="56" selection-end-line="95" selection-end-column="56" />
           <folding>
             <element signature="e#176#226#0#PHP" expanded="true" />
           </folding>
