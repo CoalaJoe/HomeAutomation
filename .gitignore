@@ -16,3 +16,4 @@
 /web/bundles/
 /.idea
 /src/AppBundle/AuthCache/*
+!/src/AppBundle/AuthCache/.gitkeep
