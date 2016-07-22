@@ -34,6 +34,7 @@ class SmartTVHandler
             }
             /** @var SmartTVInterface $tv */
             $response = $tv->$method();
+            dump($response);
         }
     }
 }

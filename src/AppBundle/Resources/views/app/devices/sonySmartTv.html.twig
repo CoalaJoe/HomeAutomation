@@ -58,7 +58,15 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    {% set command = device.getButton("AppBundle\\DeviceHelper\\GoBackable") %}
+                    <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command["Zurück"]|first }}">
+                        <i class="material-icons">{{ command["Zurück"]|keys|first }}</i>
+                        <br>
+                        <span>{{ command|keys|first }}</span>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4">
                     {% set command = device.getButton("AppBundle\\DeviceHelper\\SmartTV\\Navigatable") %}
                     <div class="well btn btn-primary btn-raised btn-command btn-well" data-command="{{ command["Ab"]|first }}">
                         <i class="material-icons">{{ command["Ab"]|keys|first }}</i>

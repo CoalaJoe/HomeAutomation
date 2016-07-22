@@ -10,6 +10,7 @@ namespace AppBundle\Entity;
 
 
 use AppBundle\DeviceHelper\Audio\Mutable;
+use AppBundle\DeviceHelper\GoBackable;
 use AppBundle\DeviceHelper\SmartTV\SubtitleChangeable;
 use AppBundle\DeviceHelper\Audio\VolumeChangeable;
 use AppBundle\DeviceHelper\Authorizable;
@@ -20,8 +21,6 @@ use AppBundle\DeviceHelper\SmartTV\Navigatable;
 use AppBundle\DeviceHelper\SmartTVInterface;
 use AppBundle\DeviceHelper\StandByChangeable;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class SonyBraviaSmartTV
@@ -30,7 +29,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @package AppBundle\Entity
  */
-class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChangeable, ChannelChangeable, Authorizable, VolumeChangeable, Mutable, Navigatable, Enterable, BackToMenu, SubtitleChangeable
+class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChangeable, ChannelChangeable, Authorizable, VolumeChangeable, Mutable, Navigatable, Enterable, BackToMenu, SubtitleChangeable, GoBackable
 {
     const COMMAND_POWER_OFF                  = 'AAAAAQAAAAEAAAAvAw==';
     const COMMAND_POWER_ON                   = 'AAAAAQAAAAEAAAAuAw==';
@@ -343,14 +342,14 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
         $curl = $this->getBaseCurl($this->getIp().'/sony/system');
         curl_setopt($curl, CURLOPT_POSTFIELDS, '{"id":4,"method":"getPowerStatus","version":"1.0","params":[]}');
         $status = $this->getJson($curl);
-
         $curl = $this->getBaseCurl($this->getBaseUrl());
 
-        if ($status->result[0]->status === 'standby') {
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_POWER_ON));
-        } else {
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_POWER_OFF));
-        }
+        $status = ($status->result[0]) ? $status->result[0]->status : 'standby';
+
+        // Determine request
+        $command = ($status === 'standby') ? self::COMMAND_POWER_ON : self::COMMAND_POWER_OFF;
+
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest($command));
 
         $result = curl_exec($curl);
         curl_close($curl);
@@ -556,5 +555,19 @@ class SonyBraviaSmartTV extends Device implements SmartTVInterface, StandByChang
     public function getTemplate()
     {
         return "sonySmartTv";
+    }
+
+    /**
+     * @return mixed
+     */
+    public function commandGoBack()
+    {
+        $curl = $this->getBaseCurl($this->getBaseUrl());
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getXMLRequest(self::COMMAND_EXIT));
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return $result;
     }
 }
