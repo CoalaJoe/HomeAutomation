@@ -98,7 +98,7 @@ class CommandMapper
                         }
                     }
 
-                    return "Ich habe Ihn für dich lauter gestellt.";
+                    return "Ich habe Ihn für dich ". $action ." gestellt.";
                 }
 
             default:
