@@ -32,6 +32,13 @@ var app = (function(object) {
         });
     };
 
+    object.closeNav = function() {
+        var $nav = $('#nav');
+        if ($nav.hasClass('in')) {
+            $nav.collapse('hide');
+        }
+    };
+
     object.requestVoiceInput = function() {
         var voiceText         = document.querySelector('.modal-body span');
         voiceText.textContent = '';
@@ -184,10 +191,16 @@ app.setEventListeners = function(){
                     'url': Routing.generate('app_do_command_route'),
                     'data': "command=" + command,
                     'complete': function(data) {
-                        var answer = data.responseText;
-                        writeText(voiceText, answer);
-                        var speaker = new SpeechSynthesisUtterance(answer);
+                        var result = data.responseText;
+                        result = JSON.parse(result);
+                        writeText(voiceText, result.message);
+                        var speaker = new SpeechSynthesisUtterance(result.message);
                         speaker.lang = "de-DE";
+                        speaker.onend = function() {
+                            if (result.status === 200) {
+                                $('#voiceInput').modal('hide');
+                            }
+                        };
                         window.speechSynthesis.speak(speaker);
                     }
                 }
@@ -196,9 +209,13 @@ app.setEventListeners = function(){
 
         recognition.start();
     });
+
+    $body.on('click', '.link', function() {
+        this.closeNav();
+    });
 };
 
-function writeText(node, text, cacheTicket, i) {
+function writeText(node, text, callback, cacheTicket, i) {
     i           = i || 0;
     var length  = text.length;
     if (typeof cacheTicket === 'undefined') {
@@ -215,7 +232,11 @@ function writeText(node, text, cacheTicket, i) {
         node.textContent = text.substring(0, i);
         if (i !== length) {
             ++i;
-            writeText(node, text, cacheTicket, i);
+            writeText(node, text, callback, cacheTicket, i);
+        } else {
+            if (typeof callback === 'function') {
+                callback();
+            }
         }
     }, 30 + (Math.random() * 50) + 1);
 }

@@ -51,7 +51,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if is_granted('ROLE_USER') %}
-                            <li><a onclick="app.requestVoiceInput()"><i class="material-icons">mic</i> Spracheingabe</a></li>
+                            <li><a onclick="app.requestVoiceInput(); app.closeNav();"><i class="material-icons">mic</i> Spracheingabe</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_USER') %}
                             <li><a href="{{ path('logout') }}" onclick="app.unboot();"><i class="material-icons">exit_to_app</i> Logout</a></li>

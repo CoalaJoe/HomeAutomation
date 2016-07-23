@@ -38,7 +38,6 @@ class CommandMapper
     public function mapCommand(string $string)
     {
         $filteredText = $this->filterStopWords($string);
-        var_dump($filteredText);
         switch ($filteredText) {
             case $this->matchesCommand($filteredText, ['Fernseher'], ['an', 'ein', 'anschalten', 'einschalten']):
                 $action = 'ein';
@@ -57,13 +56,13 @@ class CommandMapper
                     $tv = $tvs[0]; // TODO: Get all matching Devices. Get status. If action "an" and none is on throw error message.
                     $status = $tv->getPowerStatus();
                     if (($status === StandByChangeable::STATUS_OFF && $action === 'aus') || ($status === StandByChangeable::STATUS_ON && $action === 'ein')) {
-                        return "Das ist bereits der aktuelle Zustand.";
+                        return $this->createErrorResult("Das ist bereits der aktuelle Zustand.");
                     } else {
                         $tv->commandStandBy();
                     }
                 }
 
-                return "Fernseher wird ".$action."geschalten.";
+                return $this->createSuccessResult("Fernseher wird ".$action."geschalten.");
             case $this->matchesCommand($filteredText, ['Fernseher'], ['leiser', 'leise']):
                 $action = "leiser";
             case $this->matchesCommand($filteredText, ['Fernseher'], ['lauter', 'laute']):
@@ -82,7 +81,7 @@ class CommandMapper
                     $status = $tv->getPowerStatus();
 
                     if ($tv instanceof StandByChangeable && $status === StandByChangeable::STATUS_OFF) {
-                        return "Aber der Fernseher ist aus.";
+                        return $this->createErrorResult("Aber der Fernseher ist aus.");
                     } else {
                         $amount = 2;
                         foreach ($filteredText as $text) {
@@ -99,11 +98,11 @@ class CommandMapper
                         }
                     }
 
-                    return "Ich habe Ihn für dich um ". $amount . $action ." gestellt.";
+                    return $this->createSuccessResult("Ich habe Ihn für dich um ". $amount . $action ." gestellt.");
                 }
 
             default:
-                return "Diesen Befehl kenne ich nicht.";
+                return $this->createErrorResult("Diesen Befehl kenne ich nicht.");
         }
     }
 
@@ -149,5 +148,21 @@ class CommandMapper
         }
 
         return true;
+    }
+
+    private function createSuccessResult($text)
+    {
+        return [
+            'status'  => 200,
+            'message' => $text,
+        ];
+    }
+
+    private function createErrorResult($text)
+    {
+        return [
+            'status'  => 409,
+            'message' => $text,
+        ];
     }
 }

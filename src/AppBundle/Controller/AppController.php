@@ -276,6 +276,6 @@ class AppController extends Controller
         $commandMapper = $this->get('app_nlp_command_mapper');
         $result = $commandMapper->mapCommand($command);
         
-        return new Response($result);
+        return new Response(json_encode($result));
     }
 }
