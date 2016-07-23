@@ -1,18 +1,18 @@
 {% spaceless %}
 
-  {# TODO: Add Images #}
+  {%  set img_dir = '/bundles/app/images' %}
   {% set application_color = '#009688' %}
-  {% set application_name  = 'HomeAutomation' %}
+  {% set application_name  = 'Home Automation' %}
 
   {# Here are some tags you might want to consider when making a website more app-like on mobile devices.#}
   <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
   {# General images for favicon #}
-  <link rel="icon" type="image/png" href="#" sizes="16x16"/>
-  <link rel="icon" type="image/png" href="#" sizes="32x32"/>
-  <link rel="icon" type="image/png" href="#" sizes="96x96"/>
-  <link rel="icon" type="image/png" href="#" sizes="192x192"/>
-  <link rel="icon" type="image/png" href="#" sizes="196x196"/>
-  <link rel="icon" type="image/png" href="#" sizes="228x228"/>
+  <link rel="icon" type="image/png" href="{{ img_dir }}/logo_x16.png" sizes="16x16"/>
+  <link rel="icon" type="image/png" href="{{ img_dir }}/logo_x32.png" sizes="32x32"/>
+  <link rel="icon" type="image/png" href="{{ img_dir }}/logo_x96.png" sizes="96x96"/>
+  <link rel="icon" type="image/png" href="{{ img_dir }}/logo_x192.png" sizes="192x192"/>
+  <link rel="icon" type="image/png" href="{{ img_dir }}/logo_x196.png" sizes="196x196"/>
+  <link rel="icon" type="image/png" href="{{ img_dir }}/logo_x228.png" sizes="228x228"/>
 
 
 
@@ -25,11 +25,11 @@
   <meta name="apple-mobile-web-app-title" content="{{ application_name }}"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name='apple-touch-fullscreen' content='yes'/>
-  <link rel="apple-touch-icon" sizes="60x60" href="#"/>
-  <link rel="apple-touch-icon" sizes="76x76" href="#"/>
-  <link rel="apple-touch-icon" sizes="120x120" href="#"/>
-  <link rel="apple-touch-icon" sizes="152x152" href="#"/>
-  <link rel="apple-touch-icon" sizes="180x180" href="#"/>
+  <link rel="apple-touch-icon" sizes="60x60" href="{{ img_dir }}/logo_x60.png"/>
+  <link rel="apple-touch-icon" sizes="76x76" href="{{ img_dir }}/logo_x76.png"/>
+  <link rel="apple-touch-icon" sizes="120x120" href="{{ img_dir }}/logo_x120.png"/>
+  <link rel="apple-touch-icon" sizes="152x152" href="{{ img_dir }}/logo_x152.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ img_dir }}/logo_x180.png"/>
   <link href="#" rel="apple-touch-startup-image"/>
 
   {# Safari configs #}

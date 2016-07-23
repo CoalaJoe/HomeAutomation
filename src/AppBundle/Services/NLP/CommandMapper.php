@@ -40,9 +40,9 @@ class CommandMapper
         $filteredText = $this->filterStopWords($string);
         var_dump($filteredText);
         switch ($filteredText) {
-            case $this->matchesCommand($filteredText, ['Fernseher'], ['nicht'], ['an', 'ein', 'anschalten', 'einschalten']):
+            case $this->matchesCommand($filteredText, ['Fernseher'], ['an', 'ein', 'anschalten', 'einschalten']):
                 $action = 'ein';
-            case $this->matchesCommand($filteredText, ['Fernseher'], ['nicht'], ['aus', 'ausschalten']):
+            case $this->matchesCommand($filteredText, ['Fernseher'], ['aus', 'ausschalten']):
                 $action = $action ?? 'aus';
                 $devices = $this->user->getSettings()->getRoom()->getDevices();
                 $tvs = [];
@@ -64,9 +64,9 @@ class CommandMapper
                 }
 
                 return "Fernseher wird ".$action."geschalten.";
-            case $this->matchesCommand($filteredText, ['Fernseher', 'leiser']):
+            case $this->matchesCommand($filteredText, ['Fernseher'], ['leiser', 'leise']):
                 $action = "leiser";
-            case $this->matchesCommand($filteredText, ['Fernseher', 'lauter']):
+            case $this->matchesCommand($filteredText, ['Fernseher'], ['lauter', 'laute']):
                 $action = $action ?? "lauter";
                 $devices = $this->user->getSettings()->getRoom()->getDevices();
                 $tvs = [];
@@ -99,7 +99,7 @@ class CommandMapper
                         }
                     }
 
-                    return "Ich habe Ihn für dich ". $action ." gestellt.";
+                    return "Ich habe Ihn für dich um ". $amount . $action ." gestellt.";
                 }
 
             default:
@@ -121,7 +121,7 @@ class CommandMapper
         return $filtered;
     }
 
-    private function matchesCommand($array, $must = [], $donts = ['nicht'], $or = [])
+    private function matchesCommand($array, $must = [], $or = [], $donts = ['nicht'])
     {
         $searchArray = array_map('strtolower', $array);
         foreach ($must as $m) {
