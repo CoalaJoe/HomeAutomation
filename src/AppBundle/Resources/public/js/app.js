@@ -211,7 +211,7 @@ app.setEventListeners = function(){
     });
 
     $body.on('click', '.link', function() {
-        this.closeNav();
+        app.closeNav();
     });
 };
 
