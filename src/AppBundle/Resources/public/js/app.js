@@ -173,16 +173,26 @@ app.setEventListeners = function(){
     $body.on('click', '.btn-voice', function() {
         var voiceText = document.querySelector('.modal-body span');
 
+        var rec;
+        if (rec = app.cache["speech"]) {
+            rec.stop();
+
+            return false;
+        }
+
         var recognition = new webkitSpeechRecognition();
+        recognition.continuous = false;
 
         recognition.onstart = function() {
+            app.cache["speech"] = recognition;
             writeText(voiceText, 'Ich höre . . .');
         };
 
         recognition.onend = function() {
+            delete app.cache["speech"];
             writeText(voiceText, 'Berechne . . .');
         };
-
+        
         recognition.onresult = function(event) {
             recognition.onend = null;
             var command = event.results[0][0].transcript;
