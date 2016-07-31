@@ -176,6 +176,7 @@ app.setEventListeners = function(){
         var rec;
         if (rec = app.cache["speech"]) {
             rec.stop();
+            delete app.cache["speech"];
 
             return false;
         }
@@ -192,7 +193,7 @@ app.setEventListeners = function(){
             delete app.cache["speech"];
             writeText(voiceText, 'Berechne . . .');
         };
-        
+
         recognition.onresult = function(event) {
             recognition.onend = null;
             var command = event.results[0][0].transcript;

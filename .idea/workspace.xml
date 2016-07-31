@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1807a7c9-4a1b-4c43-a7ed-7177490bf376" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/favicon.ico" afterPath="$PROJECT_DIR$/web/favicon.ico" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Resources/public/js/app.js" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/public/js/app.js" />
     </list>
     <ignored path="HomeAutomation.iws" />
@@ -100,8 +99,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/AppBundle/Resources/public/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="615">
-              <caret line="194" column="8" selection-start-line="194" selection-start-column="8" selection-end-line="194" selection-end-column="8" />
+            <state relative-caret-position="375">
+              <caret line="178" column="39" selection-start-line="178" selection-start-column="39" selection-end-line="178" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -1041,8 +1040,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AppBundle/Resources/public/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="194" column="8" selection-start-line="194" selection-start-column="8" selection-end-line="194" selection-end-column="8" />
+        <state relative-caret-position="375">
+          <caret line="178" column="39" selection-start-line="178" selection-start-column="39" selection-end-line="178" selection-end-column="39" />
           <folding />
         </state>
       </provider>
